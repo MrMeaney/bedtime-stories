@@ -19,7 +19,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
@@ -62,10 +62,12 @@
         }
 
         .theme-buttons {
-            display: flex;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 15px;
             justify-content: center;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .theme-btn {
@@ -79,6 +81,23 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .theme-btn:hover::before {
+            left: 100%;
         }
 
         .theme-btn:hover {
@@ -93,24 +112,45 @@
         .theme-btn.forest { background: linear-gradient(45deg, #43e97b, #38f9d7); }
         .theme-btn.dragons { background: linear-gradient(45deg, #ff8a80, #ff5722); }
 
+        .theme-btn.active {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid #fff;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 255, 255, 0.7); }
+            70% { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
+
         .generate-btn {
             background: linear-gradient(45deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 15px 30px;
+            padding: 18px 35px;
             border-radius: 30px;
-            font-size: 1.2em;
+            font-size: 1.3em;
             font-weight: bold;
             cursor: pointer;
             display: block;
-            margin: 20px auto;
+            margin: 25px auto;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
 
         .generate-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            animation: none;
         }
 
         .story-container {
@@ -129,19 +169,17 @@
 
         .story-image {
             width: 100%;
-            height: 400px;
+            height: 450px;
             border-radius: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 5em;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
             position: relative;
             overflow: hidden;
             background-size: cover;
             background-position: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
         }
 
         .story-image::before {
@@ -151,16 +189,9 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0, 0, 0, 0.2);
+            background: rgba(0, 0, 0, 0.15);
             border-radius: 15px;
-        }
-
-        .story-image .characters {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            gap: 20px;
-            align-items: center;
+            z-index: 1;
         }
 
         .story-image .background-elements {
@@ -170,63 +201,111 @@
             display: flex;
             align-items: center;
             justify-content: space-around;
-            font-size: 2em;
-            opacity: 0.3;
+            font-size: 3em;
+            opacity: 0.4;
             z-index: 1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .story-image .characters {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            font-size: 6em;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
+            animation: characterBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes characterBounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
         }
 
         .story-text {
-            font-size: 1.3em;
-            line-height: 1.6;
+            font-size: 1.2em;
+            line-height: 1.8;
             color: #4a5568;
-            text-align: center;
+            text-align: left;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
         .navigation {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 25px;
+            padding: 0 20px;
         }
 
         .nav-btn {
             background: linear-gradient(45deg, #4ecdc4, #44a08d);
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 20px;
-            font-size: 1em;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         .nav-btn:hover {
             transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
         }
 
         .nav-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .page-indicator {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .loading {
             text-align: center;
-            font-size: 1.5em;
+            font-size: 1.8em;
             color: #667eea;
-            margin: 20px 0;
+            margin: 40px 0;
+            animation: loadingPulse 2s infinite;
+        }
+
+        @keyframes loadingPulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
         }
 
         .spinner {
             display: inline-block;
-            width: 30px;
-            height: 30px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #667eea;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-left: 10px;
+            margin-left: 15px;
         }
 
         @keyframes spin {
@@ -238,28 +317,68 @@
             background: linear-gradient(45deg, #f093fb, #f5576c);
             color: white;
             border: none;
-            padding: 15px 25px;
+            padding: 18px 30px;
             border-radius: 25px;
-            font-size: 1.1em;
+            font-size: 1.2em;
             font-weight: bold;
             cursor: pointer;
             display: block;
-            margin: 20px auto;
+            margin: 25px auto;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .new-story-btn:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
-        @media (max-width: 600px) {
-            .theme-buttons {
-                flex-direction: column;
-                align-items: center;
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
             }
             
-            .theme-btn {
-                width: 200px;
+            .theme-buttons {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
+            
+            .story-image {
+                height: 350px;
+            }
+            
+            .story-image .characters {
+                font-size: 4em;
+                gap: 20px;
+            }
+            
+            .story-text {
+                font-size: 1.1em;
+                padding: 15px;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .story-image {
+                height: 300px;
+            }
+            
+            .story-image .characters {
+                font-size: 3.5em;
+            }
+            
+            .story-text {
+                font-size: 1em;
             }
         }
     </style>
@@ -291,13 +410,16 @@
 
         <div class="story-container" id="storyContainer">
             <div class="story-page" id="storyPage">
-                <div class="story-image" id="storyImage"></div>
+                <div class="story-image" id="storyImage">
+                    <div class="background-elements" id="backgroundElements"></div>
+                    <div class="characters" id="characters"></div>
+                </div>
                 <div class="story-text" id="storyText"></div>
             </div>
             
             <div class="navigation">
                 <button class="nav-btn" id="prevBtn" disabled>← Previous</button>
-                <span id="pageIndicator" style="align-self: center; font-weight: bold; color: #667eea;">Page 1 of 5</span>
+                <div class="page-indicator" id="pageIndicator">Page 1 of 5</div>
                 <button class="nav-btn" id="nextBtn">Next →</button>
             </div>
             
@@ -430,7 +552,80 @@
                     background: "linear-gradient(135deg, #FF69B4 0%, #00FA9A 100%)",
                     characters: "🐠🐙🐢🎉",
                     backgroundElements: "🌊🐚🦀🐟🌟",
-                    text: "What a wonderful idea! Splash, Ollie, and Shelly decided to create the most spectacular underwater parade the ocean had ever seen! Word spread quickly through the coral reef, carried by the chattering dolphins and the gossiping sea gulls who dove down to pass along the exciting news. Soon, creatures from every corner of the ocean began to arrive. There were dancing seahorses who spun and twirled like underwater ballerinas, singing whales whose songs could be heard for miles, colorful clownfish who told the funniest jokes, graceful manta rays who glided through the water like flying carpets, and even some shy deep-sea creatures who rarely ventured up to the reef. Ollie juggled his pearls while swimming, Shelly led the parade with her ancient wisdom and beautiful songs, and Splash darted back and forth, making sure everyone felt included and welcome. The parade wound through coral gardens, past underwater mountains, and around mysterious ship
+                    text: "What a wonderful idea! Splash, Ollie, and Shelly decided to create the most spectacular underwater parade the ocean had ever seen! Word spread quickly through the coral reef, carried by the chattering dolphins and the gossiping sea gulls who dove down to pass along the exciting news. Soon, creatures from every corner of the ocean began to arrive. There were dancing seahorses who spun and twirled like underwater ballerinas, singing whales whose songs could be heard for miles, colorful clownfish who told the funniest jokes, graceful manta rays who glided through the water like flying carpets, and even some shy deep-sea creatures who rarely ventured up to the reef. Ollie juggled his pearls while swimming, Shelly led the parade with her ancient wisdom and beautiful songs, and Splash darted back and forth, making sure everyone felt included and welcome. The parade wound through coral gardens, past underwater mountains, and around mysterious shipwrecks where treasure chests sparkled with forgotten gold."
+                },
+                {
+                    background: "linear-gradient(135deg, #4169E1 0%, #20B2AA 100%)",
+                    characters: "🐠🐙🐢🌙",
+                    backgroundElements: "🌊💤😴🐚⭐",
+                    text: "As the ocean day turned to peaceful evening and the underwater world grew quiet and sleepy, the grand parade came to a gentle end near a cozy underwater cave lined with the softest seaweed and the most comfortable sea sponges. All the sea creatures were tired but happy after their wonderful celebration. Splash, Ollie, and Shelly found the perfect spot to rest - a warm current that rocked them gently like a cradle. 'Thank you both for the most amazing day!' whispered Splash, his colorful scales now glowing softly in the moonlight that filtered down through the water. Shelly hummed one last gentle ocean lullaby while Ollie's eight arms slowly stopped juggling and curled up peacefully around him. The gentle waves above sang their eternal song, and all the sea creatures closed their eyes and drifted off to sleep, dreaming of tomorrow's underwater adventures. In the deep, peaceful ocean, where every creature was safe and loved, they all slept soundly until the morning sun would wake them for another day of friendship and fun. Goodnight, ocean friends! 🐚"
+                }
+            ],
+            forest: [
+                {
+                    background: "linear-gradient(135deg, #228B22 0%, #32CD32 100%)",
+                    characters: "🦉",
+                    backgroundElements: "🌲🌿🍄🦋🐿️",
+                    text: "In the heart of the ancient Whispering Woods, where the trees grew so tall they seemed to touch the clouds and their leaves rustled with secrets from long ago, stood the most magnificent oak tree in the entire forest. This wasn't just any tree - it was hundreds of years old, with a trunk so wide that ten children holding hands couldn't wrap their arms around it. High up in its strong, spreading branches lived Hoot, the wisest and kindest owl in all the woodland. Hoot had feathers as soft as the finest velvet, big round eyes that sparkled like amber jewels, and a gentle heart that made him the perfect friend to all the forest creatures. Every evening, as the sun painted the sky in shades of orange and pink, Hoot would perch on his favorite branch and watch over his woodland home with love and care."
+                },
+                {
+                    background: "linear-gradient(135deg, #DEB887 0%, #90EE90 100%)",
+                    characters: "🦉🐿️",
+                    backgroundElements: "🌰🌳🍂🌿☀️",
+                    text: "One crisp autumn evening, when the forest floor was carpeted with golden and red leaves that crunched softly underfoot, Nutkin the squirrel came scampering up Hoot's tree in quite a panic. His fluffy gray tail was all frazzled, and his tiny paws were covered in dirt from digging. 'Hoot! Oh, Hoot!' Nutkin chattered frantically, scrambling from branch to branch. 'I need your help desperately! You know how I spent all summer gathering acorns for the long winter ahead? Well, I buried them somewhere super safe, but now I can't remember where! Winter is coming soon, and without my acorns, I'll be so hungry and cold!' Hoot ruffled his soft feathers sympathetically and hooted gently. 'Oh my dear little friend, don't worry yourself into a tizzy! You know I can see everything in our forest from way up here in my tall tree. Let's put our heads together and solve this mystery!'"
+                },
+                {
+                    background: "linear-gradient(135deg, #4169E1 0%, #228B22 100%)",
+                    characters: "🦉🔍",
+                    backgroundElements: "🌙🌲🦫🕷️🍄",
+                    text: "Hoot spread his magnificent wings wide and took flight, soaring silently through the moonlit forest with Nutkin riding safely on his back. The wise owl's keen eyes scanned every inch of the woodland floor, looking for any sign of where Nutkin might have buried his precious winter supply. They searched near the babbling brook where the water reflected the moon like a silver mirror, around the fairy ring of mushrooms where the woodland sprites liked to dance, and even by the old hollow log where the friendly hedgehog family lived. Hoot hooted thoughtfully as he flew, 'Now Nutkin, try to remember - where did you feel the safest and most secure when you were hiding your treasures? Sometimes our hearts remember what our minds forget!' The moonlight helped them see everything clearly, and the gentle night sounds of the forest - crickets chirping and owls calling to each other - created a peaceful symphony as they continued their important search."
+                },
+                {
+                    background: "linear-gradient(135deg, #FFD700 0%, #32CD32 100%)",
+                    characters: "🐿️🌰",
+                    backgroundElements: "🌕✨🍄🌲🦉",
+                    text: "Suddenly, Hoot's sharp eyes spotted something glinting in the moonlight near the biggest, most colorful mushroom in the entire forest - a mushroom so large it looked like a fairy's umbrella! 'There!' hooted Hoot excitedly, pointing with his wing. 'Look, Nutkin! Do you see how the earth looks a little different right there by the giant red and white spotted mushroom?' Nutkin's eyes grew wide with recognition and joy. 'Oh my goodness, yes! I remember now! I thought that beautiful mushroom would be the perfect landmark!' Quickly but carefully, Nutkin began to dig, and sure enough, there were all his precious acorns, buried safely in neat little piles. They sparkled in the moonlight like little brown treasures, each one perfectly preserved and ready to keep him well-fed through the winter months. 'Hoot, you're absolutely amazing!' Nutkin squeaked with happiness, doing a little celebration dance on the forest floor."
+                },
+                {
+                    background: "linear-gradient(135deg, #4B0082 0%, #228B22 100%)",
+                    characters: "🦉🐿️🌙",
+                    backgroundElements: "🌲💤😴🌟⭐",
+                    text: "Nutkin was so grateful for Hoot's help that he insisted on sharing some of his finest acorns with his wise owl friend. 'These are the sweetest, crunchiest acorns in the whole forest!' Nutkin said proudly, offering Hoot a pawful of the very best ones. Though Hoot usually preferred mice and other small creatures for dinner, he graciously accepted the gift, knowing it came from Nutkin's grateful heart. As the night grew deeper and all the forest creatures began to settle down for sleep, Hoot flew back to his oak tree with Nutkin still riding on his back. From his high perch, Hoot began to sing the most beautiful, gentle lullaby that floated through the entire woodland. His soft hooting melody made all the creatures feel safe and loved - the rabbits in their burrows, the deer in their clearings, the mice in their tiny homes, and even the insects tucked away in the bark of trees. One by one, every creature in the Whispering Woods closed their eyes and drifted off to sleep, all feeling grateful for the wisdom and kindness of Hoot the owl. And as the moon smiled down on the peaceful forest, everyone slept soundly, knowing that tomorrow would bring new adventures and the same wonderful friendships. Sleep tight, woodland friends! 🌙"
+                }
+            ],
+            dragons: [
+                {
+                    background: "linear-gradient(135deg, #FF69B4 0%, #87CEEB 100%)",
+                    characters: "🐲",
+                    backgroundElements: "🌺🌸☁️🌈✨",
+                    text: "High up in the clouds, where the air was as sweet as cotton candy and rainbow bridges stretched from cloud to cloud, lived the gentlest, most magical dragon in all the world. His name was Puff, and he was nothing like the scary dragons in old stories. Instead of breathing fire, Puff breathed the most beautiful flower petals that smelled like vanilla, strawberries, and fresh spring rain all mixed together! His scales were soft and shiny, changing colors like an opal in the sunlight - sometimes purple, sometimes pink, sometimes a lovely turquoise blue. Puff lived in a cozy cloud castle with fluffy white walls and windows made of crystallized raindrops. Every morning, he would wake up, stretch his magnificent wings, and fly around his sky kingdom, making sure all the clouds were fluffy and perfect for the people below to enjoy."
+                },
+                {
+                    background: "linear-gradient(135deg, #DDA0DD 0%, #F0E68C 100%)",
+                    characters: "🐲👑",
+                    backgroundElements: "🏰😢🌫️☁️💔",
+                    text: "One particularly beautiful morning, when the sun was painting the clouds in shades of gold and rose, Princess Lily came riding up to Puff's cloud kingdom on her flying unicorn. But instead of her usual bright smile, the princess looked terribly sad. Her beautiful crown seemed too heavy on her head, and her eyes were filled with unshed tears. 'Hello, dear Puff,' she said with a sigh that seemed to come from the very bottom of her heart. 'I've come to ask for your help, though I'm not sure anyone can fix my problem.' She explained that her royal castle, which had once been surrounded by the most magnificent gardens in the entire kingdom, now sat in the middle of a gray, lifeless landscape. 'All my flowers have withered away,' Princess Lily whispered sadly. 'The kingdom feels so cold and empty without their beauty and sweet fragrance. My people are becoming sad and gloomy, and I don't know what to do to bring joy back to our land.'"
+                },
+                {
+                    background: "linear-gradient(135deg, #FF1493 0%, #00CED1 100%)",
+                    characters: "🐲💨",
+                    backgroundElements: "🌸🌺🌻🌹💫",
+                    text: "Puff's kind dragon heart immediately filled with love and determination to help his friend. 'Oh, dear Princess Lily,' he said in his warm, rumbly voice that sounded like gentle thunder mixed with purring kittens, 'I think I know exactly how to help you and your kingdom!' Puff took the deepest breath he had ever taken, filling his magical lungs with all the love and joy he felt for his friend. Then, with the gentlest whoosh, he breathed out the most spectacular shower of flower petals the world had ever seen! Pink rose petals danced through the air like tiny ballerinas, yellow daisy petals spun like golden coins, purple violet petals floated like royal confetti, and white jasmine petals drifted down like sweet-scented snow. The magical petals swirled and danced on the wind, creating a beautiful, fragrant cloud that began to drift down toward Princess Lily's kingdom far below."
+                },
+                {
+                    background: "linear-gradient(135deg, #32CD32 0%, #FF69B4 100%)",
+                    characters: "🏰🌺",
+                    backgroundElements: "🌈🦋🌻🌸🎉",
+                    text: "As Puff's magical flower petals gently landed on the gray earth around Princess Lily's castle, the most amazing transformation began to take place! Each petal that touched the ground immediately sprouted into a full, beautiful flower - roses as red as rubies, sunflowers as bright as the sun itself, tulips in every color of the rainbow, and daisies that seemed to smile up at the sky. Within minutes, the entire kingdom was transformed into the most spectacular garden paradise anyone had ever imagined! The sweet fragrance of millions of flowers filled the air, butterflies and hummingbirds came from far and wide to dance among the blooms, and the gentle buzzing of happy bees created a joyful symphony. The people of the kingdom came running out of their houses, laughing and crying tears of joy as they saw their land transformed into a magical wonderland. Children picked bouquets for their mothers, couples walked hand in hand through the fragrant pathways, and everyone felt their hearts lift with pure happiness."
+                },
+                {
+                    background: "linear-gradient(135deg, #4B0082 0%, #FF69B4 100%)",
+                    characters: "👑🐲🌙",
+                    backgroundElements: "⭐✨🌸😴💤",
+                    text: "Princess Lily was so overwhelmed with gratitude and joy that she flew back up to Puff's cloud kingdom and gave the gentle dragon the biggest, warmest hug he had ever received. 'Puff, you wonderful, magical friend,' she whispered, 'you've not only saved my kingdom - you've reminded us all that the most powerful magic in the world is kindness and love!' That very evening, Princess Lily invited Puff to come down and enjoy the beautiful garden they had created together. As the sun set and the first stars began to twinkle in the dusky sky, they sat together in the most fragrant rose garden, surrounded by flowers that glowed softly in the moonlight. Puff's gentle rumbling purr, which sounded like the most comforting lullaby, mixed with the soft evening breeze rustling through the flower petals. All the people in the kingdom, feeling safe and happy in their beautiful new world, drifted off to sleep with smiles on their faces, dreaming of flower gardens and kind dragons. The sweet perfume of a million flowers filled their dreams, and everyone slept more peacefully than they ever had before, knowing that true friendship and kindness had the power to make any dream come true. Goodnight, dear dreamers! 💤"
+                }
+            ]
+        };
 
         // Theme selection
         document.querySelectorAll('.theme-btn').forEach(btn => {
@@ -474,8 +669,40 @@
 
         function displayCurrentPage() {
             const page = currentStory[currentPage];
-            document.getElementById('storyImage').textContent = page.image;
-            document.getElementById('storyText').textContent = page.text;
+            const storyImage = document.getElementById('storyImage');
+            const backgroundElements = document.getElementById('backgroundElements');
+            const characters = document.getElementById('characters');
+            const storyText = document.getElementById('storyText');
+            
+            // Set background
+            storyImage.style.background = page.background;
+            
+            // Set background elements
+            backgroundElements.innerHTML = '';
+            if (page.backgroundElements) {
+                const elements = page.backgroundElements.split('');
+                elements.forEach((element, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = element;
+                    span.style.animationDelay = `${index * 0.5}s`;
+                    backgroundElements.appendChild(span);
+                });
+            }
+            
+            // Set characters
+            characters.innerHTML = '';
+            if (page.characters) {
+                const chars = page.characters.split('');
+                chars.forEach((char, index) => {
+                    const span = document.createElement('span');
+                    span.textContent = char;
+                    span.style.animationDelay = `${index * 0.3}s`;
+                    characters.appendChild(span);
+                });
+            }
+            
+            // Set story text
+            storyText.textContent = page.text;
             
             // Update navigation
             document.getElementById('prevBtn').disabled = currentPage === 0;
@@ -513,17 +740,6 @@
             // Remove active class from theme buttons
             document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
         });
-
-        // Add CSS for active theme button
-        const style = document.createElement('style');
-        style.textContent = `
-            .theme-btn.active {
-                transform: translateY(-3px);
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-                border: 3px solid #fff;
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>
