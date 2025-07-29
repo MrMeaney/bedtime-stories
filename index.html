@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magical Bedtime Stories</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            color: #4a5568;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .stars {
+            font-size: 2em;
+            color: #ffd700;
+            animation: twinkle 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .theme-selector {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .theme-selector h2 {
+            color: #4a5568;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .theme-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .theme-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ffa726);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .theme-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .theme-btn.animals { background: linear-gradient(45deg, #4ecdc4, #44a08d); }
+        .theme-btn.space { background: linear-gradient(45deg, #667eea, #764ba2); }
+        .theme-btn.fairy { background: linear-gradient(45deg, #f093fb, #f5576c); }
+        .theme-btn.ocean { background: linear-gradient(45deg, #4facfe, #00f2fe); }
+        .theme-btn.forest { background: linear-gradient(45deg, #43e97b, #38f9d7); }
+        .theme-btn.dragons { background: linear-gradient(45deg, #ff8a80, #ff5722); }
+
+        .generate-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .story-container {
+            display: none;
+            margin-top: 30px;
+        }
+
+        .story-page {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 3px solid #f0f8ff;
+        }
+
+        .story-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4em;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .story-text {
+            font-size: 1.3em;
+            line-height: 1.6;
+            color: #4a5568;
+            text-align: center;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .nav-btn {
+            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 1.5em;
+            color: #667eea;
+            margin: 20px 0;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .new-story-btn {
+            background: linear-gradient(45deg, #f093fb, #f5576c);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s ease;
+        }
+
+        .new-story-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 600px) {
+            .theme-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .theme-btn {
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌙 Magical Bedtime Stories 🌙</h1>
+            <div class="stars">✨ ⭐ ✨</div>
+            <p style="color: #666; margin-top: 10px;">Choose a theme for tonight's adventure!</p>
+        </div>
+
+        <div class="theme-selector" id="themeSelector">
+            <h2>What kind of story would you like tonight?</h2>
+            <div class="theme-buttons">
+                <button class="theme-btn animals" data-theme="animals">🐻 Friendly Animals</button>
+                <button class="theme-btn space" data-theme="space">🚀 Space Adventure</button>
+                <button class="theme-btn fairy" data-theme="fairy">🧚‍♀️ Fairy Tale</button>
+                <button class="theme-btn ocean" data-theme="ocean">🐠 Ocean Friends</button>
+                <button class="theme-btn forest" data-theme="forest">🌲 Magical Forest</button>
+                <button class="theme-btn dragons" data-theme="dragons">🐲 Friendly Dragons</button>
+            </div>
+            <button class="generate-btn" id="generateBtn" style="display: none;">Create My Story! ✨</button>
+        </div>
+
+        <div class="loading" id="loading" style="display: none;">
+            Creating your magical story...<div class="spinner"></div>
+        </div>
+
+        <div class="story-container" id="storyContainer">
+            <div class="story-page" id="storyPage">
+                <div class="story-image" id="storyImage"></div>
+                <div class="story-text" id="storyText"></div>
+            </div>
+            
+            <div class="navigation">
+                <button class="nav-btn" id="prevBtn" disabled>← Previous</button>
+                <span id="pageIndicator" style="align-self: center; font-weight: bold; color: #667eea;">Page 1 of 5</span>
+                <button class="nav-btn" id="nextBtn">Next →</button>
+            </div>
+            
+            <button class="new-story-btn" id="newStoryBtn">Create Another Story! 🌟</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedTheme = '';
+        let currentStory = [];
+        let currentPage = 0;
+
+        const stories = {
+            animals: [
+                {
+                    image: "🐻🌸",
+                    text: "Once upon a time, in a cozy meadow filled with colorful flowers, there lived a gentle bear named Benny. Benny had the softest brown fur and the kindest heart in the whole forest."
+                },
+                {
+                    image: "🐰🥕",
+                    text: "One sunny morning, Benny met Ruby the rabbit, who was looking very sad. 'What's wrong, little friend?' asked Benny with a warm smile."
+                },
+                {
+                    image: "🌳💎✨",
+                    text: "'I've lost my favorite carrot,' said Ruby. 'It was magical and sparkled like a diamond!' Benny's eyes twinkled. 'Don't worry, I'll help you find it!'"
+                },
+                {
+                    image: "🔍🐻🐰",
+                    text: "Together, they searched high and low. They looked under mushrooms, behind trees, and even asked the wise old owl for help. The owl hooted, 'Try the rainbow garden!'"
+                },
+                {
+                    image: "🌈🥕✨😊",
+                    text: "In the magical rainbow garden, they found the sparkling carrot shining brightly! Ruby was so happy, she shared its magic with Benny. From that day on, they were the very best of friends. The end! 💤"
+                }
+            ],
+            space: [
+                {
+                    image: "🚀🌟",
+                    text: "Captain Luna was the bravest little astronaut in the galaxy! Tonight, she was flying her shiny rocket ship to visit the Moon Mouse, who lived in a cozy crater."
+                },
+                {
+                    image: "🌙🐭",
+                    text: "When Luna landed on the moon, she met Squeaky the Moon Mouse. 'Welcome to my home!' said Squeaky. 'But I have a problem - all the stars have lost their twinkle!'"
+                },
+                {
+                    image: "⭐😢🌑",
+                    text: "Luna looked up at the dark sky. The stars were there, but they looked sad and dim. 'Don't worry, Squeaky,' said Luna. 'I know just what to do!'"
+                },
+                {
+                    image: "🎵✨🚀",
+                    text: "Luna sang the most beautiful lullaby she knew, and her rocket ship played gentle music. The stars began to smile and twinkle again, lighting up the whole sky!"
+                },
+                {
+                    image: "🌟🌙😴",
+                    text: "Squeaky clapped his tiny paws with joy! 'Thank you, Captain Luna!' The stars twinkled a sleepy good night song, and Luna flew home under the most beautiful starry sky. Sweet dreams! 💫"
+                }
+            ],
+            fairy: [
+                {
+                    image: "🧚‍♀️🌸",
+                    text: "In a magical garden where flowers could giggle and butterflies could sing, lived a tiny fairy named Sparkle. She had wings like rainbow petals and a dress made of morning dew."
+                },
+                {
+                    image: "🦋😢💧",
+                    text: "One day, Sparkle found a beautiful butterfly named Flutter who couldn't fly. 'My wings feel too heavy,' Flutter sighed. 'I miss dancing in the sky!'"
+                },
+                {
+                    image: "✨🌺🔮",
+                    text: "Sparkle's heart filled with kindness. She sprinkled magic fairy dust and whispered, 'Flutter's wings, be light as dreams, dance on gentle rainbow beams!'"
+                },
+                {
+                    image: "🦋🌈💃",
+                    text: "Suddenly, Flutter's wings shimmered with all the colors of the rainbow! She could fly again, spinning and twirling through the air with pure joy!"
+                },
+                {
+                    image: "🧚‍♀️🦋🌟😴",
+                    text: "Flutter and Sparkle danced together until the moon appeared. 'Thank you, dear friend,' whispered Flutter. They curled up in a soft flower petal bed and dreamed of tomorrow's adventures. Goodnight! 🌙"
+                }
+            ],
+            ocean: [
+                {
+                    image: "🐠🌊",
+                    text: "Deep in the crystal blue ocean lived Splash, a little fish with scales that sparkled like jewels. Splash loved to explore the coral reef and make new friends."
+                },
+                {
+                    image: "🐙😊💎",
+                    text: "Today, Splash met Ollie the octopus, who was juggling shiny pearls with his eight arms! 'Wow!' said Splash. 'You're amazing! Can you teach me a trick?'"
+                },
+                {
+                    image: "🐢🎵🌊",
+                    text: "'Of course!' smiled Ollie. Just then, Shelly the sea turtle swam by, humming a peaceful ocean song. 'Would you like to join our underwater parade?' she asked."
+                },
+                {
+                    image: "🐠🐙🐢🎉",
+                    text: "Together, they swam through the coral gardens, past dancing seahorses and sleepy starfish. All the sea creatures joined their happy parade, creating the most wonderful underwater celebration!"
+                },
+                {
+                    image: "🌙🌊😴💤",
+                    text: "As the ocean grew quiet and peaceful, Splash, Ollie, and Shelly found a cozy cave lined with soft seaweed. They wished each other sweet dreams as gentle waves sang them to sleep. Goodnight, ocean friends! 🐚"
+                }
+            ],
+            forest: [
+                {
+                    image: "🌲🦉",
+                    text: "In the heart of the Whispering Woods stood the tallest, most magical tree. In its branches lived Hoot, a wise little owl with feathers as soft as clouds."
+                },
+                {
+                    image: "🐿️🌰✨",
+                    text: "One evening, Nutkin the squirrel scampered up to Hoot's tree. 'Help!' he chattered. 'I buried my winter acorns somewhere, but I can't remember where!'"
+                },
+                {
+                    image: "🔍🌙🦉",
+                    text: "'Don't worry,' hooted Hoot gently. 'I can see everything from up here. Let me help you look!' Hoot's big, round eyes scanned the moonlit forest floor."
+                },
+                {
+                    image: "🌰🌕✨🐿️",
+                    text: "'There!' pointed Hoot with his wing. Under the biggest mushroom, Nutkin's acorns were buried safely. They sparkled in the moonlight like little treasures!"
+                },
+                {
+                    image: "🦉🐿️😴🌲",
+                    text: "Nutkin was so grateful! He shared some of his favorite acorns with Hoot. As the forest grew sleepy, Hoot sang a gentle lullaby that made all the woodland creatures smile in their dreams. Sleep tight! 🌙"
+                }
+            ],
+            dragons: [
+                {
+                    image: "🐲🌺",
+                    text: "In a land of fluffy clouds and rainbow hills lived Puff, the gentlest dragon you ever did see. Instead of breathing fire, Puff breathed magical flower petals that smelled like vanilla!"
+                },
+                {
+                    image: "👑😢🏰",
+                    text: "One day, Princess Lily came to visit, but she looked very sad. 'My castle garden has no flowers,' she sighed. 'The kingdom feels so gray and empty.'"
+                },
+                {
+                    image: "🐲💨🌸",
+                    text: "Puff's kind heart wanted to help! He took a deep breath and gently blew the most beautiful flower petals toward the princess's castle. Pink roses, yellow daisies, and purple violets danced through the air!"
+                },
+                {
+                    image: "🏰🌺🌈🎉",
+                    text: "The petals landed softly and grew into the most magnificent garden the kingdom had ever seen! Flowers of every color bloomed, and butterflies came to dance among them."
+                },
+                {
+                    image: "👑🐲😴🌙",
+                    text: "Princess Lily hugged Puff gently. 'Thank you, dear dragon friend!' she whispered. That night, they sat in the beautiful garden under the stars, and Puff's soft rumbling purr helped everyone in the kingdom have the sweetest dreams. 💤"
+                }
+            ]
+        };
+
+        // Theme selection
+        document.querySelectorAll('.theme-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+                
+                // Add active class and store theme
+                btn.classList.add('active');
+                selectedTheme = btn.dataset.theme;
+                
+                // Show generate button
+                document.getElementById('generateBtn').style.display = 'block';
+            });
+        });
+
+        // Generate story
+        document.getElementById('generateBtn').addEventListener('click', () => {
+            if (!selectedTheme) return;
+            
+            // Show loading
+            document.getElementById('themeSelector').style.display = 'none';
+            document.getElementById('loading').style.display = 'block';
+            
+            // Simulate loading time
+            setTimeout(() => {
+                generateStory();
+            }, 2000);
+        });
+
+        function generateStory() {
+            currentStory = stories[selectedTheme];
+            currentPage = 0;
+            
+            // Hide loading, show story
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('storyContainer').style.display = 'block';
+            
+            displayCurrentPage();
+        }
+
+        function displayCurrentPage() {
+            const page = currentStory[currentPage];
+            document.getElementById('storyImage').textContent = page.image;
+            document.getElementById('storyText').textContent = page.text;
+            
+            // Update navigation
+            document.getElementById('prevBtn').disabled = currentPage === 0;
+            document.getElementById('nextBtn').disabled = currentPage === currentStory.length - 1;
+            document.getElementById('pageIndicator').textContent = `Page ${currentPage + 1} of ${currentStory.length}`;
+        }
+
+        // Navigation
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                displayCurrentPage();
+            }
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            if (currentPage < currentStory.length - 1) {
+                currentPage++;
+                displayCurrentPage();
+            }
+        });
+
+        // New story
+        document.getElementById('newStoryBtn').addEventListener('click', () => {
+            // Reset everything
+            selectedTheme = '';
+            currentStory = [];
+            currentPage = 0;
+            
+            // Show theme selector again
+            document.getElementById('storyContainer').style.display = 'none';
+            document.getElementById('themeSelector').style.display = 'block';
+            document.getElementById('generateBtn').style.display = 'none';
+            
+            // Remove active class from theme buttons
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+        });
+
+        // Add CSS for active theme button
+        const style = document.createElement('style');
+        style.textContent = `
+            .theme-btn.active {
+                transform: translateY(-3px);
+                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+                border: 3px solid #fff;
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
