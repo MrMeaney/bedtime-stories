@@ -129,16 +129,50 @@
 
         .story-image {
             width: 100%;
-            height: 300px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 400px;
             border-radius: 15px;
             margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 4em;
+            font-size: 5em;
             color: white;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .story-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+
+        .story-image .characters {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .story-image .background-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            font-size: 2em;
+            opacity: 0.3;
+            z-index: 1;
         }
 
         .story-text {
@@ -279,137 +313,124 @@
         const stories = {
             animals: [
                 {
-                    image: "🐻🌸",
-                    text: "Once upon a time, in a cozy meadow filled with colorful flowers, there lived a gentle bear named Benny. Benny had the softest brown fur and the kindest heart in the whole forest."
+                    background: "linear-gradient(135deg, #87CEEB 0%, #98FB98 100%)",
+                    characters: "🐻",
+                    backgroundElements: "🌸🌺🌻🦋🌿",
+                    text: "Once upon a time, in a magical meadow where the grass was as soft as silk and flowers bloomed in every color of the rainbow, there lived a gentle bear named Benny. Benny had the fluffiest brown fur that sparkled in the sunlight and the kindest, warmest heart in the entire forest. Every morning, he would wake up in his cozy cave and stretch his big paws toward the sky, greeting the day with a happy yawn. Benny loved nothing more than helping his forest friends and making everyone around him smile with his cheerful, booming laugh."
                 },
                 {
-                    image: "🐰🥕",
-                    text: "One sunny morning, Benny met Ruby the rabbit, who was looking very sad. 'What's wrong, little friend?' asked Benny with a warm smile."
+                    background: "linear-gradient(135deg, #FFE4B5 0%, #98FB98 100%)",
+                    characters: "🐻🐰",
+                    backgroundElements: "🌳🌸🍄🦋☀️",
+                    text: "One particularly sunny morning, when the dew drops on the grass looked like tiny diamonds and the birds were singing their sweetest songs, Benny was taking his usual stroll through the meadow. That's when he spotted Ruby the rabbit sitting under a big oak tree, looking sadder than a rainy day. Her usually perky ears were drooping, and her bright eyes had lost their sparkle. 'Oh my, little Ruby,' said Benny in his gentlest voice, sitting down carefully beside her. 'What's making you feel so blue on this beautiful day? You know I'm always here to help!' Ruby looked up at Benny's kind face and felt a tiny bit better already."
                 },
                 {
-                    image: "🌳💎✨",
-                    text: "'I've lost my favorite carrot,' said Ruby. 'It was magical and sparkled like a diamond!' Benny's eyes twinkled. 'Don't worry, I'll help you find it!'"
+                    background: "linear-gradient(135deg, #E6E6FA 0%, #FFB6C1 100%)",
+                    characters: "🐰💎",
+                    backgroundElements: "✨🌟⭐💫🔮",
+                    text: "Ruby's whiskers twitched as she sniffled softly. 'Oh Benny, I've lost something very, very special to me. It's my magical carrot - not just any carrot, but one that sparkles like the most beautiful diamond and glows with a warm, golden light!' She explained how the carrot had been a gift from her grandmother, and it helped her hop higher than any other rabbit in the forest. 'Without it, I feel so ordinary,' Ruby whispered. Benny's eyes lit up with determination and kindness. 'Don't you worry for even one more second, dear Ruby! We're going to find that magical carrot together. I promise you that!' His confident smile made Ruby's heart feel lighter."
                 },
                 {
-                    image: "🔍🐻🐰",
-                    text: "Together, they searched high and low. They looked under mushrooms, behind trees, and even asked the wise old owl for help. The owl hooted, 'Try the rainbow garden!'"
+                    background: "linear-gradient(135deg, #98FB98 0%, #87CEEB 100%)",
+                    characters: "🐻🐰🔍",
+                    backgroundElements: "🌳🍄🌿🦉🕷️",
+                    text: "And so began the greatest treasure hunt the forest had ever seen! Benny and Ruby searched everywhere their paws could take them. They looked under the spotted mushrooms where the field mice lived, behind the ancient oak trees where squirrels stored their acorns, and even in the babbling brook where the fish liked to play hide and seek. They asked everyone they met - the chattering chipmunks, the busy bees, and even the shy hedgehogs. Finally, they climbed up to visit Ollie the wise old owl, who lived in the tallest tree in the forest. 'Hoo-hoo!' hooted Ollie thoughtfully. 'If it's something truly magical you seek, try looking in the rainbow garden where dreams come true!'"
                 },
                 {
-                    image: "🌈🥕✨😊",
-                    text: "In the magical rainbow garden, they found the sparkling carrot shining brightly! Ruby was so happy, she shared its magic with Benny. From that day on, they were the very best of friends. The end! 💤"
+                    background: "linear-gradient(135deg, #FF69B4 0%, #FFD700 100%)",
+                    characters: "🐻🐰🥕",
+                    backgroundElements: "🌈🌸🦋✨🌟",
+                    text: "Following Ollie's wise advice, Benny and Ruby hurried to the magical rainbow garden, a secret place where flowers grew in perfect rainbow stripes and butterflies danced like tiny fairies. And there, nestled among the most beautiful roses that smelled sweeter than honey, was Ruby's sparkling carrot, glowing more brilliantly than ever before! 'My magical carrot!' Ruby squealed with joy, hopping so high she nearly touched the clouds. The moment she held it close, she felt all her special powers return. 'Benny, you're the most wonderful friend anyone could ask for!' she said, and as a thank-you, she shared some of the carrot's magic with him. From that day forward, Benny could understand the language of all the forest creatures, and Ruby could hop to the moon and back. They remained the very best of friends forever and ever, and every night they would sit together watching the stars, knowing that friendship was the most magical thing of all. The end! 💤"
                 }
             ],
             space: [
                 {
-                    image: "🚀🌟",
-                    text: "Captain Luna was the bravest little astronaut in the galaxy! Tonight, she was flying her shiny rocket ship to visit the Moon Mouse, who lived in a cozy crater."
+                    background: "linear-gradient(135deg, #191970 0%, #4B0082 100%)",
+                    characters: "🚀👩‍🚀",
+                    backgroundElements: "⭐🌟✨💫🪐",
+                    text: "In the vast, twinkling expanse of space, where stars danced like glitter and planets spun like colorful tops, lived Captain Luna, the bravest and most curious little astronaut in the entire galaxy! Her rocket ship, the 'Starlight Dream,' was painted in shimmering silver with rainbow stripes that sparkled against the cosmic darkness. Luna had completed many amazing space missions, but tonight's adventure was extra special. She was zooming through the star-speckled sky to visit her dear friend Squeaky the Moon Mouse, who lived in the coziest crater on the bright, glowing moon. Luna's heart was full of excitement as she prepared for landing, her space boots ready to bounce on the moon's powdery surface."
                 },
                 {
-                    image: "🌙🐭",
-                    text: "When Luna landed on the moon, she met Squeaky the Moon Mouse. 'Welcome to my home!' said Squeaky. 'But I have a problem - all the stars have lost their twinkle!'"
+                    background: "linear-gradient(135deg, #C0C0C0 0%, #4169E1 100%)",
+                    characters: "👩‍🚀🐭",
+                    backgroundElements: "🌙🌍💫⭐🛸",
+                    text: "With a gentle whoosh and a soft thud, Luna's rocket landed perfectly in Squeaky's crater home. The moon's surface felt bouncy and soft under her space boots, like walking on the world's biggest trampoline! 'Welcome, welcome to my lunar home!' squeaked Squeaky the Moon Mouse, scurrying out from his tiny cheese-shaped house carved right into the crater wall. But Luna noticed immediately that something was terribly wrong. Instead of his usual bright, cheerful smile, Squeaky looked worried and sad. 'Oh Luna,' he sighed, his tiny whiskers drooping, 'I'm so glad you're here! We have the biggest problem in the whole universe. All the stars have lost their magical twinkle! Look up at the sky - it's so dark and gloomy!' Luna gazed upward and gasped. The stars were still there, but they looked dim and sleepy, like nightlights that had forgotten how to shine."
                 },
                 {
-                    image: "⭐😢🌑",
-                    text: "Luna looked up at the dark sky. The stars were there, but they looked sad and dim. 'Don't worry, Squeaky,' said Luna. 'I know just what to do!'"
+                    background: "linear-gradient(135deg, #2F4F4F 0%, #191970 100%)",
+                    characters: "👩‍🚀⭐",
+                    backgroundElements: "😢🌑💤😴🌌",
+                    text: "Luna put her space-gloved hand gently on Squeaky's tiny paw and looked up at the sad, dim stars scattered across the cosmic sky. They were still beautiful, but they seemed to have forgotten how to sparkle and shine. Some stars even looked like they were trying to hide behind wispy space clouds, feeling too shy and sad to light up the universe. 'This is indeed a very serious problem,' Luna said thoughtfully, her mind already working on a solution. 'But don't you worry for even one shooting star's worth of time, dear Squeaky! I've traveled to countless planets and learned many wonderful secrets of the universe. I know exactly what these sleepy stars need to remember how to twinkle again!' Luna's eyes sparkled with confidence and determination, making Squeaky feel a little bit of hope creeping back into his tiny mouse heart."
                 },
                 {
-                    image: "🎵✨🚀",
-                    text: "Luna sang the most beautiful lullaby she knew, and her rocket ship played gentle music. The stars began to smile and twinkle again, lighting up the whole sky!"
+                    background: "linear-gradient(135deg, #FF69B4 0%, #9370DB 100%)",
+                    characters: "👩‍🚀🎵",
+                    backgroundElements: "🎶♪♫🌟✨",
+                    text: "Luna took a deep breath of her space suit's air and began to sing the most beautiful, magical lullaby she had ever learned during her travels across the galaxy. Her voice was as sweet as stardust and as gentle as a comet's tail. The melody floated through space, carried by the solar winds to every corner of the universe. Her rocket ship, the Starlight Dream, began to play the most wonderful accompaniment - soft cosmic music that sounded like wind chimes made of moonbeams and church bells made of pure starlight. As Luna's lullaby grew stronger and more beautiful, something absolutely magical began to happen. One by one, the stars started to remember their purpose. They began to smile their cosmic smiles, and their inner light grew brighter and warmer. Soon, the entire sky was twinkling more brilliantly than it ever had before!"
                 },
                 {
-                    image: "🌟🌙😴",
-                    text: "Squeaky clapped his tiny paws with joy! 'Thank you, Captain Luna!' The stars twinkled a sleepy good night song, and Luna flew home under the most beautiful starry sky. Sweet dreams! 💫"
+                    background: "linear-gradient(135deg, #FFD700 0%, #9370DB 100%)",
+                    characters: "👩‍🚀🐭🌟",
+                    backgroundElements: "✨⭐💫🌙😴",
+                    text: "Squeaky the Moon Mouse clapped his tiny paws together with pure joy, jumping up and down on the bouncy moon surface until he was practically floating! 'Luna, you did it! You saved all the stars in the universe!' he squeaked happily. The stars, now fully awake and twinkling with magical light, began to sing their own gentle lullaby back to Luna and Squeaky - a cosmic symphony that filled the entire galaxy with peace and wonder. 'Thank you, Captain Luna, for reminding us how to shine!' the stars seemed to whisper in their silvery voices. Luna hugged her dear friend Squeaky goodbye, promising to visit again soon. As she climbed back into her rocket ship and prepared for the journey home to Earth, the stars created the most spectacular light show just for her - shooting stars, swirling galaxies, and rainbow nebulas dancing across the cosmic sky. Luna flew home under the most beautiful starry night ever seen, and from that day forward, children everywhere could always count on the stars to twinkle them to sleep. Sweet dreams, little astronauts! 💫"
                 }
             ],
             fairy: [
                 {
-                    image: "🧚‍♀️🌸",
-                    text: "In a magical garden where flowers could giggle and butterflies could sing, lived a tiny fairy named Sparkle. She had wings like rainbow petals and a dress made of morning dew."
+                    background: "linear-gradient(135deg, #FFB6C1 0%, #98FB98 100%)",
+                    characters: "🧚‍♀️",
+                    backgroundElements: "🌸🌺🦋🌿✨",
+                    text: "In the most enchanted corner of the world, where morning dew sparkled like tiny diamonds and flowers could giggle when the wind tickled their petals, there lived a magical fairy named Sparkle. She was no bigger than your thumb, with wings that shimmered like soap bubbles in the sunlight - sometimes pink, sometimes blue, sometimes every color of the rainbow all at once! Her dress was woven from the finest spider silk and morning dewdrops, and it tinkled like tiny silver bells whenever she moved. Sparkle's home was inside a giant sunflower that bent down just for her, creating the coziest little fairy house with golden walls and a ceiling decorated with the flower's beautiful seeds. Every morning, she would wake up and sprinkle fairy dust on all the flowers in her garden, helping them grow bigger and more beautiful than anywhere else in the world."
                 },
                 {
-                    image: "🦋😢💧",
-                    text: "One day, Sparkle found a beautiful butterfly named Flutter who couldn't fly. 'My wings feel too heavy,' Flutter sighed. 'I miss dancing in the sky!'"
+                    background: "linear-gradient(135deg, #E6E6FA 0%, #87CEEB 100%)",
+                    characters: "🧚‍♀️🦋",
+                    backgroundElements: "🌺🌸💧😢🌿",
+                    text: "One particularly lovely morning, when the sun was painting the sky in shades of pink and gold, Sparkle was flying through her garden checking on all her flower friends. She loved to whisper good morning to each bloom and make sure they had everything they needed to be happy. But as she fluttered near the rose bushes, she heard the saddest sound - someone was crying! Following the soft sobs, Sparkle discovered a beautiful butterfly named Flutter sitting on a lily pad by the garden pond. Flutter's wings, which should have been bright orange and black like a magnificent sunset, looked heavy and gray. 'Oh my dear Flutter,' said Sparkle gently, landing softly beside her new friend. 'Whatever is the matter? Why are those pretty wings of yours not dancing in the sky?' Flutter looked up with tears in her big, dark eyes and sighed the deepest sigh. 'My wings feel so heavy, dear fairy. I used to dance and twirl high above the treetops, but now I can barely lift myself off this lily pad. I miss the feeling of flying free!'"
                 },
                 {
-                    image: "✨🌺🔮",
-                    text: "Sparkle's heart filled with kindness. She sprinkled magic fairy dust and whispered, 'Flutter's wings, be light as dreams, dance on gentle rainbow beams!'"
+                    background: "linear-gradient(135deg, #DA70D6 0%, #FFD700 100%)",
+                    characters: "🧚‍♀️✨",
+                    backgroundElements: "🌟💫🔮🌺⭐",
+                    text: "Sparkle's tiny heart filled with love and determination. She had never seen anyone look so sad, and she knew that every creature deserved to feel the joy of being exactly who they were meant to be. 'Flutter, my beautiful friend, I think I know exactly what might help!' Sparkle said with a warm, encouraging smile. She reached into her tiny fairy pouch, which was no bigger than a thimble but somehow held all the magic of the garden. From it, she pulled out the most special fairy dust she had ever created - it sparkled like ground-up rainbows and smelled like happiness itself. Hovering gently above Flutter, Sparkle began to sprinkle the magical dust while chanting in the ancient fairy language: 'Flutter's wings, be light as dreams, dance on gentle rainbow beams! Let your spirit soar up high, painting pictures in the sky!' The fairy dust swirled around Flutter like a tiny tornado made of pure magic and love."
                 },
                 {
-                    image: "🦋🌈💃",
-                    text: "Suddenly, Flutter's wings shimmered with all the colors of the rainbow! She could fly again, spinning and twirling through the air with pure joy!"
+                    background: "linear-gradient(135deg, #FF1493 0%, #00CED1 100%)",
+                    characters: "🦋🌈",
+                    backgroundElements: "✨💃🎉🌟🎭",
+                    text: "The moment Sparkle's magical fairy dust touched Flutter's wings, the most amazing transformation began! Flutter's wings started to shimmer and change colors - first orange, then red, then yellow, green, blue, indigo, and violet! They became lighter than air itself, like they were made of pure sunlight and happiness. 'I can feel it!' Flutter cried with joy. 'My wings feel like they're made of cloud wisps and rainbow mist!' She began to flutter, then fly, then soar higher and higher into the sky! Flutter spun and twirled and danced through the air, creating the most beautiful aerial ballet anyone had ever seen. She could loop-de-loop around the tallest trees, race with the wind, and even write her name in the clouds with her colorful wing trails. All the other garden creatures - the bees, the ladybugs, the dragonflies, and even the earthworms poking their heads up from the soil - stopped what they were doing to watch Flutter's magnificent sky dance!"
                 },
                 {
-                    image: "🧚‍♀️🦋🌟😴",
-                    text: "Flutter and Sparkle danced together until the moon appeared. 'Thank you, dear friend,' whispered Flutter. They curled up in a soft flower petal bed and dreamed of tomorrow's adventures. Goodnight! 🌙"
+                    background: "linear-gradient(135deg, #4169E1 0%, #9370DB 100%)",
+                    characters: "🧚‍♀️🦋🌙",
+                    backgroundElements: "⭐✨💤😴🌸",
+                    text: "As the day gently turned to evening and the first stars began to twinkle in the darkening sky, Flutter gracefully glided down to where Sparkle was waiting in the garden. 'My dearest fairy friend,' Flutter whispered, her voice filled with gratitude and wonder, 'you've given me back the greatest gift of all - the ability to be truly myself! I will never, ever forget your kindness.' The two friends spent the rest of the evening dancing together - Sparkle twinkling through the air with her gossamer wings, and Flutter painting rainbow trails across the twilight sky. When the moon rose full and bright, casting silver light across the garden, they found the softest, most fragrant flower petals and made themselves a cozy bed. As they curled up together under a blanket of rose petals that smelled like sweet dreams, Flutter sang a gentle butterfly lullaby while Sparkle hummed a fairy tune. Soon, all the flowers in the garden began to close their petals for the night, and the two friends drifted off to sleep, dreaming of tomorrow's magical adventures. And if you listen very carefully on quiet nights, you might still hear their happy laughter dancing on the evening breeze. Goodnight, little dreamers! 🌙"
                 }
             ],
             ocean: [
                 {
-                    image: "🐠🌊",
-                    text: "Deep in the crystal blue ocean lived Splash, a little fish with scales that sparkled like jewels. Splash loved to explore the coral reef and make new friends."
+                    background: "linear-gradient(135deg, #00CED1 0%, #1E90FF 100%)",
+                    characters: "🐠",
+                    backgroundElements: "🌊🐚🪸🌿💎",
+                    text: "Far beneath the sparkling waves of the deepest, bluest ocean, where sunbeams danced through the water like golden ribbons and coral reefs bloomed in every color imaginable, lived a little fish named Splash. Splash was the most extraordinary fish in all the seven seas - his scales shimmered like precious jewels, changing from emerald green to sapphire blue to ruby red depending on how the light caught them. He lived in a cozy coral cave decorated with the most beautiful seashells, smooth sea glass, and pearls that glowed softly in the ocean's gentle current. Every morning, Splash would swim out of his cave and explore the magnificent underwater world, always eager to discover new wonders and make friends with all the amazing creatures who called the ocean home."
                 },
                 {
-                    image: "🐙😊💎",
-                    text: "Today, Splash met Ollie the octopus, who was juggling shiny pearls with his eight arms! 'Wow!' said Splash. 'You're amazing! Can you teach me a trick?'"
+                    background: "linear-gradient(135deg, #9370DB 0%, #20B2AA 100%)",
+                    characters: "🐠🐙",
+                    backgroundElements: "💎🌊✨🪸🐚",
+                    text: "On this particular morning, when the ocean was especially calm and peaceful, Splash was swimming through his favorite part of the coral reef when he spotted something absolutely amazing! There, near a cluster of purple sea anemones that swayed gently in the current, was Ollie the octopus, and he was doing the most incredible trick Splash had ever seen. Ollie was juggling not one, not two, but eight shiny pearls with his eight graceful arms! Each pearl caught the filtered sunlight and sparkled like a tiny star. 'Wow!' exclaimed Splash, swimming closer with his eyes wide with wonder. 'Ollie, that's the most amazing thing I've ever seen! You're like a magical underwater circus performer! How do you do it? Could you possibly teach me some of your incredible tricks?' Ollie's big, kind eyes twinkled with delight at Splash's enthusiasm, and all eight of his arms wiggled happily."
                 },
                 {
-                    image: "🐢🎵🌊",
-                    text: "'Of course!' smiled Ollie. Just then, Shelly the sea turtle swam by, humming a peaceful ocean song. 'Would you like to join our underwater parade?' she asked."
+                    background: "linear-gradient(135deg, #32CD32 0%, #00CED1 100%)",
+                    characters: "🐙🐢🎵",
+                    backgroundElements: "🌊🐚🌿♫🎶",
+                    text: "'Of course, my young friend!' Ollie replied with the warmest smile, his arms still gracefully keeping all the pearls spinning in perfect rhythm. 'I'd be delighted to teach you everything I know about underwater acrobatics!' Just as Ollie was about to begin Splash's first lesson, they heard the most beautiful, melodious sound floating through the water. It was Shelly the sea turtle, swimming slowly and majestically toward them while humming the most peaceful ocean song anyone had ever heard. Her ancient shell was covered in colorful algae that looked like a living rainbow, and her wise, gentle eyes sparkled with years of ocean wisdom. 'Good morning, my dear friends,' Shelly said in her calm, soothing voice. 'I couldn't help but notice your wonderful juggling show, Ollie! It reminds me of the grand underwater parades we used to have when I was just a young turtle. Would you two like to help me start a new parade today? We could invite all our ocean friends to join us!'"
                 },
                 {
-                    image: "🐠🐙🐢🎉",
-                    text: "Together, they swam through the coral gardens, past dancing seahorses and sleepy starfish. All the sea creatures joined their happy parade, creating the most wonderful underwater celebration!"
-                },
-                {
-                    image: "🌙🌊😴💤",
-                    text: "As the ocean grew quiet and peaceful, Splash, Ollie, and Shelly found a cozy cave lined with soft seaweed. They wished each other sweet dreams as gentle waves sang them to sleep. Goodnight, ocean friends! 🐚"
-                }
-            ],
-            forest: [
-                {
-                    image: "🌲🦉",
-                    text: "In the heart of the Whispering Woods stood the tallest, most magical tree. In its branches lived Hoot, a wise little owl with feathers as soft as clouds."
-                },
-                {
-                    image: "🐿️🌰✨",
-                    text: "One evening, Nutkin the squirrel scampered up to Hoot's tree. 'Help!' he chattered. 'I buried my winter acorns somewhere, but I can't remember where!'"
-                },
-                {
-                    image: "🔍🌙🦉",
-                    text: "'Don't worry,' hooted Hoot gently. 'I can see everything from up here. Let me help you look!' Hoot's big, round eyes scanned the moonlit forest floor."
-                },
-                {
-                    image: "🌰🌕✨🐿️",
-                    text: "'There!' pointed Hoot with his wing. Under the biggest mushroom, Nutkin's acorns were buried safely. They sparkled in the moonlight like little treasures!"
-                },
-                {
-                    image: "🦉🐿️😴🌲",
-                    text: "Nutkin was so grateful! He shared some of his favorite acorns with Hoot. As the forest grew sleepy, Hoot sang a gentle lullaby that made all the woodland creatures smile in their dreams. Sleep tight! 🌙"
-                }
-            ],
-            dragons: [
-                {
-                    image: "🐲🌺",
-                    text: "In a land of fluffy clouds and rainbow hills lived Puff, the gentlest dragon you ever did see. Instead of breathing fire, Puff breathed magical flower petals that smelled like vanilla!"
-                },
-                {
-                    image: "👑😢🏰",
-                    text: "One day, Princess Lily came to visit, but she looked very sad. 'My castle garden has no flowers,' she sighed. 'The kingdom feels so gray and empty.'"
-                },
-                {
-                    image: "🐲💨🌸",
-                    text: "Puff's kind heart wanted to help! He took a deep breath and gently blew the most beautiful flower petals toward the princess's castle. Pink roses, yellow daisies, and purple violets danced through the air!"
-                },
-                {
-                    image: "🏰🌺🌈🎉",
-                    text: "The petals landed softly and grew into the most magnificent garden the kingdom had ever seen! Flowers of every color bloomed, and butterflies came to dance among them."
-                },
-                {
-                    image: "👑🐲😴🌙",
-                    text: "Princess Lily hugged Puff gently. 'Thank you, dear dragon friend!' she whispered. That night, they sat in the beautiful garden under the stars, and Puff's soft rumbling purr helped everyone in the kingdom have the sweetest dreams. 💤"
-                }
-            ]
-        };
+                    background: "linear-gradient(135deg, #FF69B4 0%, #00FA9A 100%)",
+                    characters: "🐠🐙🐢🎉",
+                    backgroundElements: "🌊🐚🦀🐟🌟",
+                    text: "What a wonderful idea! Splash, Ollie, and Shelly decided to create the most spectacular underwater parade the ocean had ever seen! Word spread quickly through the coral reef, carried by the chattering dolphins and the gossiping sea gulls who dove down to pass along the exciting news. Soon, creatures from every corner of the ocean began to arrive. There were dancing seahorses who spun and twirled like underwater ballerinas, singing whales whose songs could be heard for miles, colorful clownfish who told the funniest jokes, graceful manta rays who glided through the water like flying carpets, and even some shy deep-sea creatures who rarely ventured up to the reef. Ollie juggled his pearls while swimming, Shelly led the parade with her ancient wisdom and beautiful songs, and Splash darted back and forth, making sure everyone felt included and welcome. The parade wound through coral gardens, past underwater mountains, and around mysterious ship
 
         // Theme selection
         document.querySelectorAll('.theme-btn').forEach(btn => {
