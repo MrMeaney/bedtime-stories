@@ -688,398 +688,372 @@
             
             const bookWindow = window.open('', '_blank', 'width=900,height=700,scrollbars=no,resizable=yes');
             
-            bookWindow.document.write(`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${story.title}</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .book-container {
-            width: 800px;
-            height: 600px;
-            position: relative;
-            perspective: 1000px;
-        }
-
-        .book {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            background: #8B4513;
-            border-radius: 10px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
-
-        .book-spine {
-            position: absolute;
-            left: -5px;
-            top: 0;
-            width: 10px;
-            height: 100%;
-            background: #654321;
-            border-radius: 5px 0 0 5px;
-        }
-
-        .page {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: #FFFEF7;
-            border-radius: 8px;
-            padding: 40px;
-            display: none;
-            transform-origin: left center;
-            transition: transform 0.8s ease-in-out;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.1);
-            overflow: hidden;
-        }
-
-        .page.active {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .page-content {
-            display: grid;
-            grid-template-columns: 1fr 250px;
-            gap: 30px;
-            height: 100%;
-            align-items: center;
-        }
-
-        .page-text {
-            font-size: 1.3em;
-            line-height: 1.8;
-            color: #2d3748;
-            text-align: justify;
-        }
-
-        .page-illustration {
-            width: 250px;
-            height: 180px;
-            border-radius: 15px;
-            object-fit: cover;
-            border: 4px solid #e2e8f0;
-            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-            align-self: center;
-        }
-
-        .page-number {
-            position: absolute;
-            bottom: 15px;
-            right: 20px;
-            background: rgba(90, 103, 216, 0.1);
-            color: #5a67d8;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9em;
-            font-weight: bold;
-        }
-
-        .book-title {
-            text-align: center;
-            color: #5a67d8;
-            font-size: 2.2em;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .cover-page {
-            background: linear-gradient(135deg, #FFE5B4 0%, #E6F3FF 100%);
-            display: flex !important;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .cover-title {
-            font-size: 2.5em;
-            color: #5a67d8;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .cover-subtitle {
-            font-size: 1.2em;
-            color: #666;
-            margin-bottom: 40px;
-        }
-
-        .cover-decoration {
-            font-size: 3em;
-            margin: 20px 0;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .navigation {
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 1000;
-        }
-
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.9);
-            border: 2px solid #5a67d8;
-            color: #5a67d8;
-            padding: 12px 20px;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1em;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .nav-btn:hover {
-            background: #5a67d8;
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(90, 103, 216, 0.4);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-
-        .page-turn-sound {
-            display: none;
-        }
-
-        .progress-bar {
-            position: absolute;
-            top: 10px;
-            left: 20px;
-            right: 20px;
-            height: 4px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #ff6b6b, #ffa500);
-            width: 0%;
-            transition: width 0.3s ease;
-            border-radius: 2px;
-        }
-
-        @media (max-width: 768px) {
-            .book-container {
-                width: 95vw;
-                height: 90vh;
-            }
-            
-            .page {
-                padding: 20px;
-            }
-            
-            .page-content {
-                grid-template-columns: 1fr;
-                text-align: center;
-            }
-            
-            .page-illustration {
-                width: 200px;
-                height: 150px;
-                margin: 0 auto;
-            }
-            
-            .page-text {
-                font-size: 1.1em;
-            }
-        }
-
-        .bookmark {
-            position: absolute;
-            top: -10px;
-            right: 100px;
-            width: 30px;
-            height: 80px;
-            background: linear-gradient(135deg, #ff6b6b, #ffa500);
-            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 70%, 0 85%);
-            box-shadow: 2px 2px 8px rgba(0,0,0,0.2);
-        }
-    </style>
-</head>
-<body>
-    <div class="book-container">
-        <div class="book">
-            <div class="book-spine"></div>
-            <div class="bookmark"></div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
-            </div>
-            
-            <!-- Cover Page -->
-            <div class="page cover-page active" data-page="0">
-                <div class="cover-decoration">📚</div>
-                <h1 class="cover-title">${story.title}</h1>
-                <p class="cover-subtitle">A Magical Bedtime Story</p>
-                <div class="cover-decoration">✨🌙✨</div>
-            </div>
-            
-            ${story.pages.map((page, index) => {
-                const illustrationPrompt ='cute cartoon ' + story.character + ' in a magical ' + story.setting + ', children\\'s book illustration style, bright colors, friendly expression, whimsical';
-                const cleanPrompt = encodeURIComponent(illustrationPrompt + ', children\\'s book illustration, cartoon style, bright colors, friendly, cute, safe for kids, storybook art');
+            // Generate the pages HTML separately to avoid template literal issues
+            let pagesHTML = '';
+            story.pages.forEach((page, index) => {
+                const cleanPrompt = encodeURIComponent(
+                    'cute cartoon ' + story.character + ' in a magical ' + story.setting + ', children book illustration style, bright colors, friendly expression, whimsical, children book illustration, cartoon style, bright colors, friendly, cute, safe for kids, storybook art'
+                );
                 const negativePrompt = encodeURIComponent("scary, dark, violent, realistic, photographic, inappropriate");
                 const seed = Math.floor(Math.random() * 10000);
                 const imageUrl = 'https://image.pollinations.ai/prompt/' + cleanPrompt + '?negative=' + negativePrompt + '&width=250&height=180&seed=' + seed + '&model=flux&enhance=true';
                 
-                return \`
-                    <div class="page" data-page="\${index + 1}">
-                        <div class="book-title">\${story.title}</div>
-                        <div class="page-content">
-                            <div class="page-text">\${page}</div>
-                            <img src="\${imageUrl}" alt="Story illustration for page \${index + 1}" class="page-illustration" loading="lazy">
-                        </div>
-                        <div class="page-number">Page \${index + 1}</div>
-                    </div>
-                \`;
-            }).join('')}
-        </div>
+                pagesHTML += '<div class="page" data-page="' + (index + 1) + '">' +
+                    '<div class="book-title">' + story.title + '</div>' +
+                    '<div class="page-content">' +
+                        '<div class="page-text">' + page + '</div>' +
+                        '<img src="' + imageUrl + '" alt="Story illustration for page ' + (index + 1) + '" class="page-illustration" loading="lazy">' +
+                    '</div>' +
+                    '<div class="page-number">Page ' + (index + 1) + '</div>' +
+                '</div>';
+            });
+            
+            bookWindow.document.write('<!DOCTYPE html>' +
+'<html lang="en">' +
+'<head>' +
+    '<meta charset="UTF-8">' +
+    '<meta name="viewport" content="width=device-width, initial-scale=1.0">' +
+    '<title>' + story.title + '</title>' +
+    '<style>' +
+        '* {' +
+            'margin: 0;' +
+            'padding: 0;' +
+            'box-sizing: border-box;' +
+        '}' +
+
+        'body {' +
+            'font-family: "Comic Sans MS", cursive, sans-serif;' +
+            'background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);' +
+            'min-height: 100vh;' +
+            'display: flex;' +
+            'align-items: center;' +
+            'justify-content: center;' +
+            'overflow: hidden;' +
+        '}' +
+
+        '.book-container {' +
+            'width: 800px;' +
+            'height: 600px;' +
+            'position: relative;' +
+            'perspective: 1000px;' +
+        '}' +
+
+        '.book {' +
+            'width: 100%;' +
+            'height: 100%;' +
+            'position: relative;' +
+            'transform-style: preserve-3d;' +
+            'background: #8B4513;' +
+            'border-radius: 10px;' +
+            'box-shadow: 0 20px 40px rgba(0,0,0,0.3);' +
+        '}' +
+
+        '.book-spine {' +
+            'position: absolute;' +
+            'left: -5px;' +
+            'top: 0;' +
+            'width: 10px;' +
+            'height: 100%;' +
+            'background: #654321;' +
+            'border-radius: 5px 0 0 5px;' +
+        '}' +
+
+        '.page {' +
+            'position: absolute;' +
+            'width: 100%;' +
+            'height: 100%;' +
+            'background: #FFFEF7;' +
+            'border-radius: 8px;' +
+            'padding: 40px;' +
+            'display: none;' +
+            'transform-origin: left center;' +
+            'transition: transform 0.8s ease-in-out;' +
+            'box-shadow: inset 0 0 20px rgba(0,0,0,0.1);' +
+            'overflow: hidden;' +
+        '}' +
+
+        '.page.active {' +
+            'display: flex;' +
+            'flex-direction: column;' +
+        '}' +
+
+        '.page-content {' +
+            'display: grid;' +
+            'grid-template-columns: 1fr 250px;' +
+            'gap: 30px;' +
+            'height: 100%;' +
+            'align-items: center;' +
+        '}' +
+
+        '.page-text {' +
+            'font-size: 1.3em;' +
+            'line-height: 1.8;' +
+            'color: #2d3748;' +
+            'text-align: justify;' +
+        '}' +
+
+        '.page-illustration {' +
+            'width: 250px;' +
+            'height: 180px;' +
+            'border-radius: 15px;' +
+            'object-fit: cover;' +
+            'border: 4px solid #e2e8f0;' +
+            'box-shadow: 0 8px 16px rgba(0,0,0,0.15);' +
+            'align-self: center;' +
+        '}' +
+
+        '.page-number {' +
+            'position: absolute;' +
+            'bottom: 15px;' +
+            'right: 20px;' +
+            'background: rgba(90, 103, 216, 0.1);' +
+            'color: #5a67d8;' +
+            'padding: 8px 15px;' +
+            'border-radius: 20px;' +
+            'font-size: 0.9em;' +
+            'font-weight: bold;' +
+        '}' +
+
+        '.book-title {' +
+            'text-align: center;' +
+            'color: #5a67d8;' +
+            'font-size: 2.2em;' +
+            'margin-bottom: 30px;' +
+            'text-shadow: 2px 2px 4px rgba(0,0,0,0.1);' +
+        '}' +
+
+        '.cover-page {' +
+            'background: linear-gradient(135deg, #FFE5B4 0%, #E6F3FF 100%);' +
+            'display: flex !important;' +
+            'flex-direction: column;' +
+            'justify-content: center;' +
+            'align-items: center;' +
+            'text-align: center;' +
+        '}' +
+
+        '.cover-title {' +
+            'font-size: 2.5em;' +
+            'color: #5a67d8;' +
+            'margin-bottom: 20px;' +
+            'text-shadow: 2px 2px 4px rgba(0,0,0,0.2);' +
+        '}' +
+
+        '.cover-subtitle {' +
+            'font-size: 1.2em;' +
+            'color: #666;' +
+            'margin-bottom: 40px;' +
+        '}' +
+
+        '.cover-decoration {' +
+            'font-size: 3em;' +
+            'margin: 20px 0;' +
+            'animation: float 3s ease-in-out infinite;' +
+        '}' +
+
+        '@keyframes float {' +
+            '0%, 100% { transform: translateY(0px); }' +
+            '50% { transform: translateY(-10px); }' +
+        '}' +
+
+        '.navigation {' +
+            'position: absolute;' +
+            'bottom: 20px;' +
+            'left: 50%;' +
+            'transform: translateX(-50%);' +
+            'display: flex;' +
+            'gap: 20px;' +
+            'z-index: 1000;' +
+        '}' +
+
+        '.nav-btn {' +
+            'background: rgba(255, 255, 255, 0.9);' +
+            'border: 2px solid #5a67d8;' +
+            'color: #5a67d8;' +
+            'padding: 12px 20px;' +
+            'border-radius: 25px;' +
+            'cursor: pointer;' +
+            'font-size: 1em;' +
+            'font-weight: bold;' +
+            'transition: all 0.3s ease;' +
+            'backdrop-filter: blur(10px);' +
+        '}' +
+
+        '.nav-btn:hover {' +
+            'background: #5a67d8;' +
+            'color: white;' +
+            'transform: translateY(-2px);' +
+            'box-shadow: 0 5px 15px rgba(90, 103, 216, 0.4);' +
+        '}' +
+
+        '.nav-btn:disabled {' +
+            'opacity: 0.5;' +
+            'cursor: not-allowed;' +
+            'transform: none;' +
+        '}' +
+
+        '.progress-bar {' +
+            'position: absolute;' +
+            'top: 10px;' +
+            'left: 20px;' +
+            'right: 20px;' +
+            'height: 4px;' +
+            'background: rgba(255,255,255,0.3);' +
+            'border-radius: 2px;' +
+            'overflow: hidden;' +
+        '}' +
+
+        '.progress-fill {' +
+            'height: 100%;' +
+            'background: linear-gradient(90deg, #ff6b6b, #ffa500);' +
+            'width: 0%;' +
+            'transition: width 0.3s ease;' +
+            'border-radius: 2px;' +
+        '}' +
+
+        '.bookmark {' +
+            'position: absolute;' +
+            'top: -10px;' +
+            'right: 100px;' +
+            'width: 30px;' +
+            'height: 80px;' +
+            'background: linear-gradient(135deg, #ff6b6b, #ffa500);' +
+            'clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 70%, 0 85%);' +
+            'box-shadow: 2px 2px 8px rgba(0,0,0,0.2);' +
+        '}' +
+
+        '@media (max-width: 768px) {' +
+            '.book-container {' +
+                'width: 95vw;' +
+                'height: 90vh;' +
+            '}' +
+            
+            '.page {' +
+                'padding: 20px;' +
+            '}' +
+            
+            '.page-content {' +
+                'grid-template-columns: 1fr;' +
+                'text-align: center;' +
+            '}' +
+            
+            '.page-illustration {' +
+                'width: 200px;' +
+                'height: 150px;' +
+                'margin: 0 auto;' +
+            '}' +
+            
+            '.page-text {' +
+                'font-size: 1.1em;' +
+            '}' +
+        '}' +
+    '</style>' +
+'</head>' +
+'<body>' +
+    '<div class="book-container">' +
+        '<div class="book">' +
+            '<div class="book-spine"></div>' +
+            '<div class="bookmark"></div>' +
+            '<div class="progress-bar">' +
+                '<div class="progress-fill" id="progressFill"></div>' +
+            '</div>' +
+            
+            '<div class="page cover-page active" data-page="0">' +
+                '<div class="cover-decoration">📚</div>' +
+                '<h1 class="cover-title">' + story.title + '</h1>' +
+                '<p class="cover-subtitle">A Magical Bedtime Story</p>' +
+                '<div class="cover-decoration">✨🌙✨</div>' +
+            '</div>' +
+            
+            pagesHTML +
+        '</div>' +
         
-        <div class="navigation">
-            <button class="nav-btn" id="prevBtn" onclick="previousPage()">📖 Previous</button>
-            <button class="nav-btn" id="nextBtn" onclick="nextPage()">Next 📖</button>
-            <button class="nav-btn" onclick="window.close()">Close Book</button>
-        </div>
-    </div>
+        '<div class="navigation">' +
+            '<button class="nav-btn" id="prevBtn" onclick="previousPage()">📖 Previous</button>' +
+            '<button class="nav-btn" id="nextBtn" onclick="nextPage()">Next 📖</button>' +
+            '<button class="nav-btn" onclick="window.close()">Close Book</button>' +
+        '</div>' +
+    '</div>' +
 
-    <script>
-        let currentPage = 0;
-        const totalPages = ${story.pages.length + 1}; // +1 for cover page
+    '<script>' +
+        'let currentPage = 0;' +
+        'const totalPages = ' + (story.pages.length + 1) + ';' +
 
-        function updateNavigation() {
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-            const progressFill = document.getElementById('progressFill');
+        'function updateNavigation() {' +
+            'const prevBtn = document.getElementById("prevBtn");' +
+            'const nextBtn = document.getElementById("nextBtn");' +
+            'const progressFill = document.getElementById("progressFill");' +
             
-            prevBtn.disabled = currentPage === 0;
-            nextBtn.disabled = currentPage === totalPages - 1;
+            'prevBtn.disabled = currentPage === 0;' +
+            'nextBtn.disabled = currentPage === totalPages - 1;' +
             
-            const progress = (currentPage / (totalPages - 1)) * 100;
-            progressFill.style.width = progress + '%';
-        }
+            'const progress = (currentPage / (totalPages - 1)) * 100;' +
+            'progressFill.style.width = progress + "%";' +
+        '}' +
 
-        function showPage(pageNumber) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            const targetPage = document.querySelector(\`[data-page="\${pageNumber}"]\`);
-            if (targetPage) {
-                targetPage.classList.add('active');
-            }
-            updateNavigation();
-        }
+        'function showPage(pageNumber) {' +
+            'document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));' +
+            'const targetPage = document.querySelector("[data-page=\\"" + pageNumber + "\\"]");' +
+            'if (targetPage) {' +
+                'targetPage.classList.add("active");' +
+            '}' +
+            'updateNavigation();' +
+        '}' +
 
-        function nextPage() {
-            if (currentPage < totalPages - 1) {
-                currentPage++;
-                showPage(currentPage);
-                playPageTurnSound();
-            }
-        }
+        'function nextPage() {' +
+            'if (currentPage < totalPages - 1) {' +
+                'currentPage++;' +
+                'showPage(currentPage);' +
+                'playPageTurnSound();' +
+            '}' +
+        '}' +
 
-        function previousPage() {
-            if (currentPage > 0) {
-                currentPage--;
-                showPage(currentPage);
-                playPageTurnSound();
-            }
-        }
+        'function previousPage() {' +
+            'if (currentPage > 0) {' +
+                'currentPage--;' +
+                'showPage(currentPage);' +
+                'playPageTurnSound();' +
+            '}' +
+        '}' +
 
-        function playPageTurnSound() {
-            // Simple page turn sound effect using Web Audio API
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-            
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.1);
-            
-            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-            
-            oscillator.start(audioContext.currentTime);
-            oscillator.stop(audioContext.currentTime + 0.1);
-        }
+        'function playPageTurnSound() {' +
+            'try {' +
+                'const audioContext = new (window.AudioContext || window.webkitAudioContext)();' +
+                'const oscillator = audioContext.createOscillator();' +
+                'const gainNode = audioContext.createGain();' +
+                
+                'oscillator.connect(gainNode);' +
+                'gainNode.connect(audioContext.destination);' +
+                
+                'oscillator.frequency.setValueAtTime(800, audioContext.currentTime);' +
+                'oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.1);' +
+                
+                'gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);' +
+                'gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);' +
+                
+                'oscillator.start(audioContext.currentTime);' +
+                'oscillator.stop(audioContext.currentTime + 0.1);' +
+            '} catch(e) {}' +
+        '}' +
 
-        // Keyboard navigation
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'ArrowRight' || e.key === ' ') {
-                e.preventDefault();
-                nextPage();
-            } else if (e.key === 'ArrowLeft') {
-                e.preventDefault();
-                previousPage();
-            } else if (e.key === 'Escape') {
-                window.close();
-            }
-        });
+        'document.addEventListener("keydown", function(e) {' +
+            'if (e.key === "ArrowRight" || e.key === " ") {' +
+                'e.preventDefault();' +
+                'nextPage();' +
+            '} else if (e.key === "ArrowLeft") {' +
+                'e.preventDefault();' +
+                'previousPage();' +
+            '} else if (e.key === "Escape") {' +
+                'window.close();' +
+            '}' +
+        '});' +
 
-        // Initialize
-        updateNavigation();
-        
-        // Helper functions for illustrations
-        function generateIllustrationPrompt(pageText, pageIndex, character, setting) {
-            const prompts = [
-                \`cute cartoon \${character} in a magical \${setting}, children's book illustration style, bright colors, friendly expression, whimsical\`,
-                \`\${character} discovering a glowing magical object in \${setting}, children's storybook art, soft lighting, enchanting atmosphere\`,
-                \`\${character} touching a sparkling magical item, children's book illustration, warm glowing effects, wonder and amazement\`,
-                \`\${character} with magical powers helping in \${setting}, cartoon style, bright cheerful colors, kind and gentle scene\`,
-                \`\${character} meeting small forest animals in \${setting}, children's book art, cute animals, friendship scene, pastoral\`,
-                \`\${character} using magic to help lost animals, children's illustration, glowing magical effects, caring and helpful scene\`,
-                \`\${character} surrounded by happy animals in \${setting}, children's storybook style, celebration scene, joyful atmosphere\`,
-                \`group celebration in magical \${setting} with \${character}, children's book art, festive and happy, community gathering\`,
-                \`wise \${character} sharing wisdom in \${setting}, children's illustration, peaceful evening scene, storytelling moment\`,
-                \`peaceful nighttime scene in \${setting} with sleeping \${character}, children's book art, stars and moon, dreamy bedtime scene\`
-            ];
+        'updateNavigation();' +
+    '</script>' +
+'</body>' +
+'</html>');
             
-            return prompts[pageIndex] || \`cute \${character} in magical \${setting}, children's book illustration style\`;
-        }
-
-        function generateIllustration(prompt) {
-            const cleanPrompt = encodeURIComponent(
-                \`\${prompt}, children's book illustration, cartoon style, bright colors, friendly, cute, safe for kids, storybook art\`
-            );
-            
-            const negativePrompt = encodeURIComponent("scary, dark, violent, realistic, photographic, inappropriate");
-            const seed = Math.floor(Math.random() * 10000);
-            
-            return \`https://image.pollinations.ai/prompt/\${cleanPrompt}?negative=\${negativePrompt}&width=250&height=180&seed=\${seed}&model=flux&enhance=true\`;
+            bookWindow.document.close();
+        }=\${negativePrompt}&width=250&height=180&seed=\${seed}&model=flux&enhance=true\`;
         }
     </script>
 </body>
