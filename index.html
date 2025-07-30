@@ -684,10 +684,28 @@
         function openBookReader(story) {
             lastGeneratedStory = story;
             
+            // Try to open the popup window
             const bookWindow = window.open('', '_blank', 'width=900,height=700,scrollbars=no,resizable=yes');
             
-            if (!bookWindow) {
-                alert('Please allow popups for this site to view your story book!');
+            if (!bookWindow || bookWindow.closed || typeof bookWindow.closed === 'undefined') {
+                // Popup was blocked, show instructions
+                document.getElementById('storyContent').innerHTML = `
+                    <div style="text-align: center; padding: 50px;">
+                        <h3 style="color: #ff6b6b; margin-bottom: 20px;">🚫 Popup Blocked!</h3>
+                        <p style="font-size: 1.1em; margin-bottom: 20px;">Your browser blocked the story book popup.</p>
+                        <p style="color: #666; margin-bottom: 20px;">Please allow popups for this site, then click the button below:</p>
+                        <button onclick="reopenLastStory()" style="
+                            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+                            color: white;
+                            border: none;
+                            padding: 15px 30px;
+                            border-radius: 25px;
+                            cursor: pointer;
+                            font-size: 1.1em;
+                            margin-top: 15px;
+                        ">📖 Try Opening Story Book Again</button>
+                    </div>
+                `;
                 return;
             }
             
