@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Magical Bedtime Stories</title>
+    <title>Magical Bedtime Story Generator</title>
     <style>
         * {
             margin: 0;
@@ -15,129 +15,25 @@
             font-family: 'Comic Sans MS', cursive, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            padding: 20px;
+            color: #333;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 20px;
         }
 
         .header {
             text-align: center;
             margin-bottom: 30px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
         .header h1 {
-            color: #4a5568;
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .stars {
-            font-size: 2em;
-            color: #ffd700;
-            animation: twinkle 2s ease-in-out infinite alternate;
-        }
-
-        @keyframes twinkle {
-            0% { opacity: 0.5; }
-            100% { opacity: 1; }
-        }
-
-        .theme-selector {
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .theme-selector h2 {
-            color: #4a5568;
-            margin-bottom: 20px;
-            font-size: 1.5em;
-        }
-
-        .theme-buttons {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            justify-content: center;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .theme-btn {
-            background: linear-gradient(45deg, #ff6b6b, #ffa726);
-            color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .theme-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .theme-btn:hover::before {
-            left: 100%;
-        }
-
-        .theme-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .theme-btn.animals { background: linear-gradient(45deg, #4ecdc4, #44a08d); }
-        .theme-btn.space { background: linear-gradient(45deg, #667eea, #764ba2); }
-        .theme-btn.fairy { background: linear-gradient(45deg, #f093fb, #f5576c); }
-        .theme-btn.ocean { background: linear-gradient(45deg, #4facfe, #00f2fe); }
-        .theme-btn.forest { background: linear-gradient(45deg, #43e97b, #38f9d7); }
-        .theme-btn.dragons { background: linear-gradient(45deg, #ff8a80, #ff5722); }
-
-        .theme-btn.active {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            border: 3px solid #fff;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0% { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 255, 255, 0.7); }
-            70% { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 10px rgba(255, 255, 255, 0); }
-            100% { box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 0 0 rgba(255, 255, 255, 0); }
-        }
-
-        .generate-btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            border-radius: 30px;
-            font-size: 1.3em;
-            font-weight: bold;
-            cursor: pointer;
-            display: block;
-            margin: 25px auto;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             animation: bounce 2s infinite;
         }
 
@@ -147,165 +43,196 @@
             60% { transform: translateY(-5px); }
         }
 
-        .generate-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-            animation: none;
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        .form-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
         }
 
         .story-container {
-            display: none;
-            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            min-height: 600px;
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #5a67d8;
+            font-size: 1.1em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #5a67d8;
+            box-shadow: 0 0 0 3px rgba(90, 103, 216, 0.1);
+            transform: translateY(-2px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            background: #f7fafc;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .checkbox-item:hover {
+            background: #edf2f7;
+            transform: translateY(-1px);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin-right: 8px;
+        }
+
+        .generate-btn {
+            background: linear-gradient(135deg, #ff6b6b, #ffa500);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 107, 107, 0.4);
+        }
+
+        .generate-btn:active {
+            transform: translateY(0);
+        }
+
+        .story-content {
+            line-height: 1.8;
+            font-size: 1.1em;
+            color: #2d3748;
+        }
+
+        .story-title {
+            color: #5a67d8;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 10px;
         }
 
         .story-page {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border: 3px solid #f0f8ff;
-        }
-
-        .story-image {
-            width: 100%;
-            height: 450px;
-            border-radius: 15px;
             margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            padding: 20px;
+            background: #f9f9f9;
+            border-left: 5px solid #5a67d8;
+            border-radius: 10px;
             position: relative;
-            overflow: hidden;
-            background-size: cover;
-            background-position: center;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .story-image::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 15px;
-            z-index: 1;
-        }
-
-        .story-image .background-elements {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr 200px;
+            gap: 20px;
             align-items: center;
-            justify-content: space-around;
-            font-size: 3em;
-            opacity: 0.4;
-            z-index: 1;
-            animation: float 6s ease-in-out infinite;
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-        }
-
-        .story-image .characters {
-            position: relative;
-            z-index: 3;
-            display: flex;
-            gap: 30px;
-            align-items: center;
-            font-size: 6em;
-            color: white;
-            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.7);
-            animation: characterBounce 3s ease-in-out infinite;
-        }
-
-        @keyframes characterBounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+        .story-illustration {
+            width: 200px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+            border: 3px solid #e2e8f0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
 
         .story-text {
-            font-size: 1.2em;
+            font-size: 1.1em;
             line-height: 1.8;
-            color: #4a5568;
-            text-align: left;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            border-left: 5px solid #667eea;
-            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
         }
 
-        .navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 25px;
-            padding: 0 20px;
+        @media (max-width: 768px) {
+            .story-page {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .story-illustration {
+                width: 100%;
+                max-width: 300px;
+                margin: 0 auto;
+            }
         }
 
-        .nav-btn {
-            background: linear-gradient(45deg, #4ecdc4, #44a08d);
+        .page-number {
+            position: absolute;
+            top: -10px;
+            right: 15px;
+            background: #5a67d8;
             color: white;
-            border: none;
-            padding: 15px 25px;
-            border-radius: 25px;
-            font-size: 1.1em;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9em;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .nav-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
-        }
-
-        .nav-btn:disabled {
-            background: #ccc;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .page-indicator {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 1.1em;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .loading {
             text-align: center;
-            font-size: 1.8em;
-            color: #667eea;
-            margin: 40px 0;
-            animation: loadingPulse 2s infinite;
-        }
-
-        @keyframes loadingPulse {
-            0%, 100% { opacity: 0.7; }
-            50% { opacity: 1; }
+            padding: 50px;
+            color: #666;
         }
 
         .spinner {
-            display: inline-block;
-            width: 40px;
-            height: 40px;
             border: 4px solid #f3f3f3;
-            border-top: 4px solid #667eea;
+            border-top: 4px solid #5a67d8;
             border-radius: 50%;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
-            margin-left: 15px;
+            margin: 0 auto 20px;
         }
 
         @keyframes spin {
@@ -313,433 +240,474 @@
             100% { transform: rotate(360deg); }
         }
 
-        .new-story-btn {
-            background: linear-gradient(45deg, #f093fb, #f5576c);
-            color: white;
-            border: none;
-            padding: 18px 30px;
-            border-radius: 25px;
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            display: block;
-            margin: 25px auto;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        .empty-state {
+            text-align: center;
+            padding: 50px;
+            color: #666;
         }
 
-        .new-story-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        .empty-state h3 {
+            margin-bottom: 15px;
+            color: #5a67d8;
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-                margin: 10px;
-            }
-            
-            .theme-buttons {
+            .main-content {
                 grid-template-columns: 1fr;
-                max-width: 300px;
             }
             
-            .story-image {
-                height: 350px;
-            }
-            
-            .story-image .characters {
-                font-size: 4em;
-                gap: 20px;
-            }
-            
-            .story-text {
-                font-size: 1.1em;
-                padding: 15px;
-            }
-            
-            .navigation {
-                flex-direction: column;
-                gap: 15px;
-            }
-        }
-
-        @media (max-width: 480px) {
             .header h1 {
                 font-size: 2em;
             }
             
-            .story-image {
-                height: 300px;
+            .container {
+                padding: 15px;
             }
-            
-            .story-image .characters {
-                font-size: 3.5em;
-            }
-            
-            .story-text {
-                font-size: 1em;
-            }
+        }
+
+        .magical-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .star {
+            position: absolute;
+            color: #ffd700;
+            animation: twinkle 2s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
 <body>
+    <div class="magical-elements">
+        <div class="star" style="top: 10%; left: 10%; font-size: 20px;">⭐</div>
+        <div class="star" style="top: 20%; right: 15%; font-size: 16px;">✨</div>
+        <div class="star" style="top: 60%; left: 5%; font-size: 18px;">🌟</div>
+        <div class="star" style="bottom: 20%; right: 10%; font-size: 22px;">⭐</div>
+        <div class="star" style="bottom: 40%; left: 20%; font-size: 14px;">✨</div>
+    </div>
+
     <div class="container">
         <div class="header">
-            <h1>🌙 Magical Bedtime Stories 🌙</h1>
-            <div class="stars">✨ ⭐ ✨</div>
-            <p style="color: #666; margin-top: 10px;">Choose a theme for tonight's adventure!</p>
+            <h1>🌙 Magical Bedtime Story Generator ✨</h1>
+            <p>Create personalized bedtime stories for your little ones (ages 2-5)</p>
         </div>
 
-        <div class="theme-selector" id="themeSelector">
-            <h2>What kind of story would you like tonight?</h2>
-            <div class="theme-buttons">
-                <button class="theme-btn animals" data-theme="animals">🐻 Friendly Animals</button>
-                <button class="theme-btn space" data-theme="space">🚀 Space Adventure</button>
-                <button class="theme-btn fairy" data-theme="fairy">🧚‍♀️ Fairy Tale</button>
-                <button class="theme-btn ocean" data-theme="ocean">🐠 Ocean Friends</button>
-                <button class="theme-btn forest" data-theme="forest">🌲 Magical Forest</button>
-                <button class="theme-btn dragons" data-theme="dragons">🐲 Friendly Dragons</button>
+        <div class="main-content">
+            <div class="form-container">
+                <form id="storyForm">
+
+
+                    <div class="form-group">
+                        <label for="mainCharacter">Main Character:</label>
+                        <select id="mainCharacter" name="mainCharacter">
+                            <option value="">Choose a character...</option>
+                            <option value="friendly dragon">Friendly Dragon</option>
+                            <option value="talking animal">Talking Animal</option>
+                            <option value="magical fairy">Magical Fairy</option>
+                            <option value="brave knight">Brave Knight</option>
+                            <option value="wise owl">Wise Owl</option>
+                            <option value="playful puppy">Playful Puppy</option>
+                            <option value="curious kitten">Curious Kitten</option>
+                            <option value="gentle giant">Gentle Giant</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="setting">Story Setting:</label>
+                        <select id="setting" name="setting">
+                            <option value="">Choose a setting...</option>
+                            <option value="enchanted forest">Enchanted Forest</option>
+                            <option value="magical kingdom">Magical Kingdom</option>
+                            <option value="cozy village">Cozy Village</option>
+                            <option value="underwater world">Underwater World</option>
+                            <option value="cloud city">Cloud City</option>
+                            <option value="garden">Beautiful Garden</option>
+                            <option value="treehouse">Magical Treehouse</option>
+                            <option value="farm">Happy Farm</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Story Themes (select all that apply):</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="friendship" name="themes" value="friendship">
+                                <label for="friendship">Friendship</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="kindness" name="themes" value="kindness">
+                                <label for="kindness">Kindness</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="courage" name="themes" value="courage">
+                                <label for="courage">Courage</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="sharing" name="themes" value="sharing">
+                                <label for="sharing">Sharing</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="helping" name="themes" value="helping others">
+                                <label for="helping">Helping Others</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="adventure" name="themes" value="adventure">
+                                <label for="adventure">Adventure</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialElement">Special Element (optional):</label>
+                        <input type="text" id="specialElement" name="specialElement" placeholder="e.g., magic wand, flying carpet, talking tree">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lesson">What lesson should the story teach?</label>
+                        <textarea id="lesson" name="lesson" placeholder="e.g., It's important to be kind to others, or sharing makes everyone happy"></textarea>
+                    </div>
+
+                    <button type="submit" class="generate-btn">✨ Create My Story ✨</button>
+                </form>
             </div>
-            <button class="generate-btn" id="generateBtn" style="display: none;">Create My Story! ✨</button>
-        </div>
 
-        <div class="loading" id="loading" style="display: none;">
-            Creating your magical story...<div class="spinner"></div>
-        </div>
-
-        <div class="story-container" id="storyContainer">
-            <div class="story-page" id="storyPage">
-                <div class="story-image" id="storyImage">
-                    <div class="background-elements" id="backgroundElements"></div>
-                    <div class="characters" id="characters"></div>
+            <div class="story-container">
+                <div id="storyContent" class="empty-state">
+                    <h3>🌟 Your Magical Story Will Appear Here!</h3>
+                    <p>Fill out the form on the left and click "Create My Story" to generate a personalized bedtime story for your little one.</p>
                 </div>
-                <div class="story-text" id="storyText"></div>
             </div>
-            
-            <div class="navigation">
-                <button class="nav-btn" id="prevBtn" disabled>← Previous</button>
-                <div class="page-indicator" id="pageIndicator">Page 1 of 5</div>
-                <button class="nav-btn" id="nextBtn">Next →</button>
-            </div>
-            
-            <button class="new-story-btn" id="newStoryBtn">Create Another Story! 🌟</button>
         </div>
     </div>
 
     <script>
-        let selectedTheme = '';
-        let currentStory = [];
-        let currentPage = 0;
-
-        const stories = {
-            animals: [
-                {
-                    background: "linear-gradient(135deg, #87CEEB 0%, #98FB98 100%)",
-                    characters: "🐻",
-                    backgroundElements: "🌸🌺🌻🦋🌿",
-                    text: "Once upon a time, in a magical meadow where the grass was as soft as silk and flowers bloomed in every color of the rainbow, there lived a gentle bear named Benny. Benny had the fluffiest brown fur that sparkled in the sunlight and the kindest, warmest heart in the entire forest. Every morning, he would wake up in his cozy cave and stretch his big paws toward the sky, greeting the day with a happy yawn. Benny loved nothing more than helping his forest friends and making everyone around him smile with his cheerful, booming laugh."
-                },
-                {
-                    background: "linear-gradient(135deg, #FFE4B5 0%, #98FB98 100%)",
-                    characters: "🐻🐰",
-                    backgroundElements: "🌳🌸🍄🦋☀️",
-                    text: "One particularly sunny morning, when the dew drops on the grass looked like tiny diamonds and the birds were singing their sweetest songs, Benny was taking his usual stroll through the meadow. That's when he spotted Ruby the rabbit sitting under a big oak tree, looking sadder than a rainy day. Her usually perky ears were drooping, and her bright eyes had lost their sparkle. 'Oh my, little Ruby,' said Benny in his gentlest voice, sitting down carefully beside her. 'What's making you feel so blue on this beautiful day? You know I'm always here to help!' Ruby looked up at Benny's kind face and felt a tiny bit better already."
-                },
-                {
-                    background: "linear-gradient(135deg, #E6E6FA 0%, #FFB6C1 100%)",
-                    characters: "🐰💎",
-                    backgroundElements: "✨🌟⭐💫🔮",
-                    text: "Ruby's whiskers twitched as she sniffled softly. 'Oh Benny, I've lost something very, very special to me. It's my magical carrot - not just any carrot, but one that sparkles like the most beautiful diamond and glows with a warm, golden light!' She explained how the carrot had been a gift from her grandmother, and it helped her hop higher than any other rabbit in the forest. 'Without it, I feel so ordinary,' Ruby whispered. Benny's eyes lit up with determination and kindness. 'Don't you worry for even one more second, dear Ruby! We're going to find that magical carrot together. I promise you that!' His confident smile made Ruby's heart feel lighter."
-                },
-                {
-                    background: "linear-gradient(135deg, #98FB98 0%, #87CEEB 100%)",
-                    characters: "🐻🐰🔍",
-                    backgroundElements: "🌳🍄🌿🦉🕷️",
-                    text: "And so began the greatest treasure hunt the forest had ever seen! Benny and Ruby searched everywhere their paws could take them. They looked under the spotted mushrooms where the field mice lived, behind the ancient oak trees where squirrels stored their acorns, and even in the babbling brook where the fish liked to play hide and seek. They asked everyone they met - the chattering chipmunks, the busy bees, and even the shy hedgehogs. Finally, they climbed up to visit Ollie the wise old owl, who lived in the tallest tree in the forest. 'Hoo-hoo!' hooted Ollie thoughtfully. 'If it's something truly magical you seek, try looking in the rainbow garden where dreams come true!'"
-                },
-                {
-                    background: "linear-gradient(135deg, #FF69B4 0%, #FFD700 100%)",
-                    characters: "🐻🐰🥕",
-                    backgroundElements: "🌈🌸🦋✨🌟",
-                    text: "Following Ollie's wise advice, Benny and Ruby hurried to the magical rainbow garden, a secret place where flowers grew in perfect rainbow stripes and butterflies danced like tiny fairies. And there, nestled among the most beautiful roses that smelled sweeter than honey, was Ruby's sparkling carrot, glowing more brilliantly than ever before! 'My magical carrot!' Ruby squealed with joy, hopping so high she nearly touched the clouds. The moment she held it close, she felt all her special powers return. 'Benny, you're the most wonderful friend anyone could ask for!' she said, and as a thank-you, she shared some of the carrot's magic with him. From that day forward, Benny could understand the language of all the forest creatures, and Ruby could hop to the moon and back. They remained the very best of friends forever and ever, and every night they would sit together watching the stars, knowing that friendship was the most magical thing of all. The end! 💤"
-                }
-            ],
-            space: [
-                {
-                    background: "linear-gradient(135deg, #191970 0%, #4B0082 100%)",
-                    characters: "🚀👩‍🚀",
-                    backgroundElements: "⭐🌟✨💫🪐",
-                    text: "In the vast, twinkling expanse of space, where stars danced like glitter and planets spun like colorful tops, lived Captain Luna, the bravest and most curious little astronaut in the entire galaxy! Her rocket ship, the 'Starlight Dream,' was painted in shimmering silver with rainbow stripes that sparkled against the cosmic darkness. Luna had completed many amazing space missions, but tonight's adventure was extra special. She was zooming through the star-speckled sky to visit her dear friend Squeaky the Moon Mouse, who lived in the coziest crater on the bright, glowing moon. Luna's heart was full of excitement as she prepared for landing, her space boots ready to bounce on the moon's powdery surface."
-                },
-                {
-                    background: "linear-gradient(135deg, #C0C0C0 0%, #4169E1 100%)",
-                    characters: "👩‍🚀🐭",
-                    backgroundElements: "🌙🌍💫⭐🛸",
-                    text: "With a gentle whoosh and a soft thud, Luna's rocket landed perfectly in Squeaky's crater home. The moon's surface felt bouncy and soft under her space boots, like walking on the world's biggest trampoline! 'Welcome, welcome to my lunar home!' squeaked Squeaky the Moon Mouse, scurrying out from his tiny cheese-shaped house carved right into the crater wall. But Luna noticed immediately that something was terribly wrong. Instead of his usual bright, cheerful smile, Squeaky looked worried and sad. 'Oh Luna,' he sighed, his tiny whiskers drooping, 'I'm so glad you're here! We have the biggest problem in the whole universe. All the stars have lost their magical twinkle! Look up at the sky - it's so dark and gloomy!' Luna gazed upward and gasped. The stars were still there, but they looked dim and sleepy, like nightlights that had forgotten how to shine."
-                },
-                {
-                    background: "linear-gradient(135deg, #2F4F4F 0%, #191970 100%)",
-                    characters: "👩‍🚀⭐",
-                    backgroundElements: "😢🌑💤😴🌌",
-                    text: "Luna put her space-gloved hand gently on Squeaky's tiny paw and looked up at the sad, dim stars scattered across the cosmic sky. They were still beautiful, but they seemed to have forgotten how to sparkle and shine. Some stars even looked like they were trying to hide behind wispy space clouds, feeling too shy and sad to light up the universe. 'This is indeed a very serious problem,' Luna said thoughtfully, her mind already working on a solution. 'But don't you worry for even one shooting star's worth of time, dear Squeaky! I've traveled to countless planets and learned many wonderful secrets of the universe. I know exactly what these sleepy stars need to remember how to twinkle again!' Luna's eyes sparkled with confidence and determination, making Squeaky feel a little bit of hope creeping back into his tiny mouse heart."
-                },
-                {
-                    background: "linear-gradient(135deg, #FF69B4 0%, #9370DB 100%)",
-                    characters: "👩‍🚀🎵",
-                    backgroundElements: "🎶♪♫🌟✨",
-                    text: "Luna took a deep breath of her space suit's air and began to sing the most beautiful, magical lullaby she had ever learned during her travels across the galaxy. Her voice was as sweet as stardust and as gentle as a comet's tail. The melody floated through space, carried by the solar winds to every corner of the universe. Her rocket ship, the Starlight Dream, began to play the most wonderful accompaniment - soft cosmic music that sounded like wind chimes made of moonbeams and church bells made of pure starlight. As Luna's lullaby grew stronger and more beautiful, something absolutely magical began to happen. One by one, the stars started to remember their purpose. They began to smile their cosmic smiles, and their inner light grew brighter and warmer. Soon, the entire sky was twinkling more brilliantly than it ever had before!"
-                },
-                {
-                    background: "linear-gradient(135deg, #FFD700 0%, #9370DB 100%)",
-                    characters: "👩‍🚀🐭🌟",
-                    backgroundElements: "✨⭐💫🌙😴",
-                    text: "Squeaky the Moon Mouse clapped his tiny paws together with pure joy, jumping up and down on the bouncy moon surface until he was practically floating! 'Luna, you did it! You saved all the stars in the universe!' he squeaked happily. The stars, now fully awake and twinkling with magical light, began to sing their own gentle lullaby back to Luna and Squeaky - a cosmic symphony that filled the entire galaxy with peace and wonder. 'Thank you, Captain Luna, for reminding us how to shine!' the stars seemed to whisper in their silvery voices. Luna hugged her dear friend Squeaky goodbye, promising to visit again soon. As she climbed back into her rocket ship and prepared for the journey home to Earth, the stars created the most spectacular light show just for her - shooting stars, swirling galaxies, and rainbow nebulas dancing across the cosmic sky. Luna flew home under the most beautiful starry night ever seen, and from that day forward, children everywhere could always count on the stars to twinkle them to sleep. Sweet dreams, little astronauts! 💫"
-                }
-            ],
-            fairy: [
-                {
-                    background: "linear-gradient(135deg, #FFB6C1 0%, #98FB98 100%)",
-                    characters: "🧚‍♀️",
-                    backgroundElements: "🌸🌺🦋🌿✨",
-                    text: "In the most enchanted corner of the world, where morning dew sparkled like tiny diamonds and flowers could giggle when the wind tickled their petals, there lived a magical fairy named Sparkle. She was no bigger than your thumb, with wings that shimmered like soap bubbles in the sunlight - sometimes pink, sometimes blue, sometimes every color of the rainbow all at once! Her dress was woven from the finest spider silk and morning dewdrops, and it tinkled like tiny silver bells whenever she moved. Sparkle's home was inside a giant sunflower that bent down just for her, creating the coziest little fairy house with golden walls and a ceiling decorated with the flower's beautiful seeds. Every morning, she would wake up and sprinkle fairy dust on all the flowers in her garden, helping them grow bigger and more beautiful than anywhere else in the world."
-                },
-                {
-                    background: "linear-gradient(135deg, #E6E6FA 0%, #87CEEB 100%)",
-                    characters: "🧚‍♀️🦋",
-                    backgroundElements: "🌺🌸💧😢🌿",
-                    text: "One particularly lovely morning, when the sun was painting the sky in shades of pink and gold, Sparkle was flying through her garden checking on all her flower friends. She loved to whisper good morning to each bloom and make sure they had everything they needed to be happy. But as she fluttered near the rose bushes, she heard the saddest sound - someone was crying! Following the soft sobs, Sparkle discovered a beautiful butterfly named Flutter sitting on a lily pad by the garden pond. Flutter's wings, which should have been bright orange and black like a magnificent sunset, looked heavy and gray. 'Oh my dear Flutter,' said Sparkle gently, landing softly beside her new friend. 'Whatever is the matter? Why are those pretty wings of yours not dancing in the sky?' Flutter looked up with tears in her big, dark eyes and sighed the deepest sigh. 'My wings feel so heavy, dear fairy. I used to dance and twirl high above the treetops, but now I can barely lift myself off this lily pad. I miss the feeling of flying free!'"
-                },
-                {
-                    background: "linear-gradient(135deg, #DA70D6 0%, #FFD700 100%)",
-                    characters: "🧚‍♀️✨",
-                    backgroundElements: "🌟💫🔮🌺⭐",
-                    text: "Sparkle's tiny heart filled with love and determination. She had never seen anyone look so sad, and she knew that every creature deserved to feel the joy of being exactly who they were meant to be. 'Flutter, my beautiful friend, I think I know exactly what might help!' Sparkle said with a warm, encouraging smile. She reached into her tiny fairy pouch, which was no bigger than a thimble but somehow held all the magic of the garden. From it, she pulled out the most special fairy dust she had ever created - it sparkled like ground-up rainbows and smelled like happiness itself. Hovering gently above Flutter, Sparkle began to sprinkle the magical dust while chanting in the ancient fairy language: 'Flutter's wings, be light as dreams, dance on gentle rainbow beams! Let your spirit soar up high, painting pictures in the sky!' The fairy dust swirled around Flutter like a tiny tornado made of pure magic and love."
-                },
-                {
-                    background: "linear-gradient(135deg, #FF1493 0%, #00CED1 100%)",
-                    characters: "🦋🌈",
-                    backgroundElements: "✨💃🎉🌟🎭",
-                    text: "The moment Sparkle's magical fairy dust touched Flutter's wings, the most amazing transformation began! Flutter's wings started to shimmer and change colors - first orange, then red, then yellow, green, blue, indigo, and violet! They became lighter than air itself, like they were made of pure sunlight and happiness. 'I can feel it!' Flutter cried with joy. 'My wings feel like they're made of cloud wisps and rainbow mist!' She began to flutter, then fly, then soar higher and higher into the sky! Flutter spun and twirled and danced through the air, creating the most beautiful aerial ballet anyone had ever seen. She could loop-de-loop around the tallest trees, race with the wind, and even write her name in the clouds with her colorful wing trails. All the other garden creatures - the bees, the ladybugs, the dragonflies, and even the earthworms poking their heads up from the soil - stopped what they were doing to watch Flutter's magnificent sky dance!"
-                },
-                {
-                    background: "linear-gradient(135deg, #4169E1 0%, #9370DB 100%)",
-                    characters: "🧚‍♀️🦋🌙",
-                    backgroundElements: "⭐✨💤😴🌸",
-                    text: "As the day gently turned to evening and the first stars began to twinkle in the darkening sky, Flutter gracefully glided down to where Sparkle was waiting in the garden. 'My dearest fairy friend,' Flutter whispered, her voice filled with gratitude and wonder, 'you've given me back the greatest gift of all - the ability to be truly myself! I will never, ever forget your kindness.' The two friends spent the rest of the evening dancing together - Sparkle twinkling through the air with her gossamer wings, and Flutter painting rainbow trails across the twilight sky. When the moon rose full and bright, casting silver light across the garden, they found the softest, most fragrant flower petals and made themselves a cozy bed. As they curled up together under a blanket of rose petals that smelled like sweet dreams, Flutter sang a gentle butterfly lullaby while Sparkle hummed a fairy tune. Soon, all the flowers in the garden began to close their petals for the night, and the two friends drifted off to sleep, dreaming of tomorrow's magical adventures. And if you listen very carefully on quiet nights, you might still hear their happy laughter dancing on the evening breeze. Goodnight, little dreamers! 🌙"
-                }
-            ],
-            ocean: [
-                {
-                    background: "linear-gradient(135deg, #00CED1 0%, #1E90FF 100%)",
-                    characters: "🐠",
-                    backgroundElements: "🌊🐚🪸🌿💎",
-                    text: "Far beneath the sparkling waves of the deepest, bluest ocean, where sunbeams danced through the water like golden ribbons and coral reefs bloomed in every color imaginable, lived a little fish named Splash. Splash was the most extraordinary fish in all the seven seas - his scales shimmered like precious jewels, changing from emerald green to sapphire blue to ruby red depending on how the light caught them. He lived in a cozy coral cave decorated with the most beautiful seashells, smooth sea glass, and pearls that glowed softly in the ocean's gentle current. Every morning, Splash would swim out of his cave and explore the magnificent underwater world, always eager to discover new wonders and make friends with all the amazing creatures who called the ocean home."
-                },
-                {
-                    background: "linear-gradient(135deg, #9370DB 0%, #20B2AA 100%)",
-                    characters: "🐠🐙",
-                    backgroundElements: "💎🌊✨🪸🐚",
-                    text: "On this particular morning, when the ocean was especially calm and peaceful, Splash was swimming through his favorite part of the coral reef when he spotted something absolutely amazing! There, near a cluster of purple sea anemones that swayed gently in the current, was Ollie the octopus, and he was doing the most incredible trick Splash had ever seen. Ollie was juggling not one, not two, but eight shiny pearls with his eight graceful arms! Each pearl caught the filtered sunlight and sparkled like a tiny star. 'Wow!' exclaimed Splash, swimming closer with his eyes wide with wonder. 'Ollie, that's the most amazing thing I've ever seen! You're like a magical underwater circus performer! How do you do it? Could you possibly teach me some of your incredible tricks?' Ollie's big, kind eyes twinkled with delight at Splash's enthusiasm, and all eight of his arms wiggled happily."
-                },
-                {
-                    background: "linear-gradient(135deg, #32CD32 0%, #00CED1 100%)",
-                    characters: "🐙🐢🎵",
-                    backgroundElements: "🌊🐚🌿♫🎶",
-                    text: "'Of course, my young friend!' Ollie replied with the warmest smile, his arms still gracefully keeping all the pearls spinning in perfect rhythm. 'I'd be delighted to teach you everything I know about underwater acrobatics!' Just as Ollie was about to begin Splash's first lesson, they heard the most beautiful, melodious sound floating through the water. It was Shelly the sea turtle, swimming slowly and majestically toward them while humming the most peaceful ocean song anyone had ever heard. Her ancient shell was covered in colorful algae that looked like a living rainbow, and her wise, gentle eyes sparkled with years of ocean wisdom. 'Good morning, my dear friends,' Shelly said in her calm, soothing voice. 'I couldn't help but notice your wonderful juggling show, Ollie! It reminds me of the grand underwater parades we used to have when I was just a young turtle. Would you two like to help me start a new parade today? We could invite all our ocean friends to join us!'"
-                },
-                {
-                    background: "linear-gradient(135deg, #FF69B4 0%, #00FA9A 100%)",
-                    characters: "🐠🐙🐢🎉",
-                    backgroundElements: "🌊🐚🦀🐟🌟",
-                    text: "What a wonderful idea! Splash, Ollie, and Shelly decided to create the most spectacular underwater parade the ocean had ever seen! Word spread quickly through the coral reef, carried by the chattering dolphins and the gossiping sea gulls who dove down to pass along the exciting news. Soon, creatures from every corner of the ocean began to arrive. There were dancing seahorses who spun and twirled like underwater ballerinas, singing whales whose songs could be heard for miles, colorful clownfish who told the funniest jokes, graceful manta rays who glided through the water like flying carpets, and even some shy deep-sea creatures who rarely ventured up to the reef. Ollie juggled his pearls while swimming, Shelly led the parade with her ancient wisdom and beautiful songs, and Splash darted back and forth, making sure everyone felt included and welcome. The parade wound through coral gardens, past underwater mountains, and around mysterious shipwrecks where treasure chests sparkled with forgotten gold."
-                },
-                {
-                    background: "linear-gradient(135deg, #4169E1 0%, #20B2AA 100%)",
-                    characters: "🐠🐙🐢🌙",
-                    backgroundElements: "🌊💤😴🐚⭐",
-                    text: "As the ocean day turned to peaceful evening and the underwater world grew quiet and sleepy, the grand parade came to a gentle end near a cozy underwater cave lined with the softest seaweed and the most comfortable sea sponges. All the sea creatures were tired but happy after their wonderful celebration. Splash, Ollie, and Shelly found the perfect spot to rest - a warm current that rocked them gently like a cradle. 'Thank you both for the most amazing day!' whispered Splash, his colorful scales now glowing softly in the moonlight that filtered down through the water. Shelly hummed one last gentle ocean lullaby while Ollie's eight arms slowly stopped juggling and curled up peacefully around him. The gentle waves above sang their eternal song, and all the sea creatures closed their eyes and drifted off to sleep, dreaming of tomorrow's underwater adventures. In the deep, peaceful ocean, where every creature was safe and loved, they all slept soundly until the morning sun would wake them for another day of friendship and fun. Goodnight, ocean friends! 🐚"
-                }
-            ],
-            forest: [
-                {
-                    background: "linear-gradient(135deg, #228B22 0%, #32CD32 100%)",
-                    characters: "🦉",
-                    backgroundElements: "🌲🌿🍄🦋🐿️",
-                    text: "In the heart of the ancient Whispering Woods, where the trees grew so tall they seemed to touch the clouds and their leaves rustled with secrets from long ago, stood the most magnificent oak tree in the entire forest. This wasn't just any tree - it was hundreds of years old, with a trunk so wide that ten children holding hands couldn't wrap their arms around it. High up in its strong, spreading branches lived Hoot, the wisest and kindest owl in all the woodland. Hoot had feathers as soft as the finest velvet, big round eyes that sparkled like amber jewels, and a gentle heart that made him the perfect friend to all the forest creatures. Every evening, as the sun painted the sky in shades of orange and pink, Hoot would perch on his favorite branch and watch over his woodland home with love and care."
-                },
-                {
-                    background: "linear-gradient(135deg, #DEB887 0%, #90EE90 100%)",
-                    characters: "🦉🐿️",
-                    backgroundElements: "🌰🌳🍂🌿☀️",
-                    text: "One crisp autumn evening, when the forest floor was carpeted with golden and red leaves that crunched softly underfoot, Nutkin the squirrel came scampering up Hoot's tree in quite a panic. His fluffy gray tail was all frazzled, and his tiny paws were covered in dirt from digging. 'Hoot! Oh, Hoot!' Nutkin chattered frantically, scrambling from branch to branch. 'I need your help desperately! You know how I spent all summer gathering acorns for the long winter ahead? Well, I buried them somewhere super safe, but now I can't remember where! Winter is coming soon, and without my acorns, I'll be so hungry and cold!' Hoot ruffled his soft feathers sympathetically and hooted gently. 'Oh my dear little friend, don't worry yourself into a tizzy! You know I can see everything in our forest from way up here in my tall tree. Let's put our heads together and solve this mystery!'"
-                },
-                {
-                    background: "linear-gradient(135deg, #4169E1 0%, #228B22 100%)",
-                    characters: "🦉🔍",
-                    backgroundElements: "🌙🌲🦫🕷️🍄",
-                    text: "Hoot spread his magnificent wings wide and took flight, soaring silently through the moonlit forest with Nutkin riding safely on his back. The wise owl's keen eyes scanned every inch of the woodland floor, looking for any sign of where Nutkin might have buried his precious winter supply. They searched near the babbling brook where the water reflected the moon like a silver mirror, around the fairy ring of mushrooms where the woodland sprites liked to dance, and even by the old hollow log where the friendly hedgehog family lived. Hoot hooted thoughtfully as he flew, 'Now Nutkin, try to remember - where did you feel the safest and most secure when you were hiding your treasures? Sometimes our hearts remember what our minds forget!' The moonlight helped them see everything clearly, and the gentle night sounds of the forest - crickets chirping and owls calling to each other - created a peaceful symphony as they continued their important search."
-                },
-                {
-                    background: "linear-gradient(135deg, #FFD700 0%, #32CD32 100%)",
-                    characters: "🐿️🌰",
-                    backgroundElements: "🌕✨🍄🌲🦉",
-                    text: "Suddenly, Hoot's sharp eyes spotted something glinting in the moonlight near the biggest, most colorful mushroom in the entire forest - a mushroom so large it looked like a fairy's umbrella! 'There!' hooted Hoot excitedly, pointing with his wing. 'Look, Nutkin! Do you see how the earth looks a little different right there by the giant red and white spotted mushroom?' Nutkin's eyes grew wide with recognition and joy. 'Oh my goodness, yes! I remember now! I thought that beautiful mushroom would be the perfect landmark!' Quickly but carefully, Nutkin began to dig, and sure enough, there were all his precious acorns, buried safely in neat little piles. They sparkled in the moonlight like little brown treasures, each one perfectly preserved and ready to keep him well-fed through the winter months. 'Hoot, you're absolutely amazing!' Nutkin squeaked with happiness, doing a little celebration dance on the forest floor."
-                },
-                {
-                    background: "linear-gradient(135deg, #4B0082 0%, #228B22 100%)",
-                    characters: "🦉🐿️🌙",
-                    backgroundElements: "🌲💤😴🌟⭐",
-                    text: "Nutkin was so grateful for Hoot's help that he insisted on sharing some of his finest acorns with his wise owl friend. 'These are the sweetest, crunchiest acorns in the whole forest!' Nutkin said proudly, offering Hoot a pawful of the very best ones. Though Hoot usually preferred mice and other small creatures for dinner, he graciously accepted the gift, knowing it came from Nutkin's grateful heart. As the night grew deeper and all the forest creatures began to settle down for sleep, Hoot flew back to his oak tree with Nutkin still riding on his back. From his high perch, Hoot began to sing the most beautiful, gentle lullaby that floated through the entire woodland. His soft hooting melody made all the creatures feel safe and loved - the rabbits in their burrows, the deer in their clearings, the mice in their tiny homes, and even the insects tucked away in the bark of trees. One by one, every creature in the Whispering Woods closed their eyes and drifted off to sleep, all feeling grateful for the wisdom and kindness of Hoot the owl. And as the moon smiled down on the peaceful forest, everyone slept soundly, knowing that tomorrow would bring new adventures and the same wonderful friendships. Sleep tight, woodland friends! 🌙"
-                }
-            ],
-            dragons: [
-                {
-                    background: "linear-gradient(135deg, #FF69B4 0%, #87CEEB 100%)",
-                    characters: "🐲",
-                    backgroundElements: "🌺🌸☁️🌈✨",
-                    text: "High up in the clouds, where the air was as sweet as cotton candy and rainbow bridges stretched from cloud to cloud, lived the gentlest, most magical dragon in all the world. His name was Puff, and he was nothing like the scary dragons in old stories. Instead of breathing fire, Puff breathed the most beautiful flower petals that smelled like vanilla, strawberries, and fresh spring rain all mixed together! His scales were soft and shiny, changing colors like an opal in the sunlight - sometimes purple, sometimes pink, sometimes a lovely turquoise blue. Puff lived in a cozy cloud castle with fluffy white walls and windows made of crystallized raindrops. Every morning, he would wake up, stretch his magnificent wings, and fly around his sky kingdom, making sure all the clouds were fluffy and perfect for the people below to enjoy."
-                },
-                {
-                    background: "linear-gradient(135deg, #DDA0DD 0%, #F0E68C 100%)",
-                    characters: "🐲👑",
-                    backgroundElements: "🏰😢🌫️☁️💔",
-                    text: "One particularly beautiful morning, when the sun was painting the clouds in shades of gold and rose, Princess Lily came riding up to Puff's cloud kingdom on her flying unicorn. But instead of her usual bright smile, the princess looked terribly sad. Her beautiful crown seemed too heavy on her head, and her eyes were filled with unshed tears. 'Hello, dear Puff,' she said with a sigh that seemed to come from the very bottom of her heart. 'I've come to ask for your help, though I'm not sure anyone can fix my problem.' She explained that her royal castle, which had once been surrounded by the most magnificent gardens in the entire kingdom, now sat in the middle of a gray, lifeless landscape. 'All my flowers have withered away,' Princess Lily whispered sadly. 'The kingdom feels so cold and empty without their beauty and sweet fragrance. My people are becoming sad and gloomy, and I don't know what to do to bring joy back to our land.'"
-                },
-                {
-                    background: "linear-gradient(135deg, #FF1493 0%, #00CED1 100%)",
-                    characters: "🐲💨",
-                    backgroundElements: "🌸🌺🌻🌹💫",
-                    text: "Puff's kind dragon heart immediately filled with love and determination to help his friend. 'Oh, dear Princess Lily,' he said in his warm, rumbly voice that sounded like gentle thunder mixed with purring kittens, 'I think I know exactly how to help you and your kingdom!' Puff took the deepest breath he had ever taken, filling his magical lungs with all the love and joy he felt for his friend. Then, with the gentlest whoosh, he breathed out the most spectacular shower of flower petals the world had ever seen! Pink rose petals danced through the air like tiny ballerinas, yellow daisy petals spun like golden coins, purple violet petals floated like royal confetti, and white jasmine petals drifted down like sweet-scented snow. The magical petals swirled and danced on the wind, creating a beautiful, fragrant cloud that began to drift down toward Princess Lily's kingdom far below."
-                },
-                {
-                    background: "linear-gradient(135deg, #32CD32 0%, #FF69B4 100%)",
-                    characters: "🏰🌺",
-                    backgroundElements: "🌈🦋🌻🌸🎉",
-                    text: "As Puff's magical flower petals gently landed on the gray earth around Princess Lily's castle, the most amazing transformation began to take place! Each petal that touched the ground immediately sprouted into a full, beautiful flower - roses as red as rubies, sunflowers as bright as the sun itself, tulips in every color of the rainbow, and daisies that seemed to smile up at the sky. Within minutes, the entire kingdom was transformed into the most spectacular garden paradise anyone had ever imagined! The sweet fragrance of millions of flowers filled the air, butterflies and hummingbirds came from far and wide to dance among the blooms, and the gentle buzzing of happy bees created a joyful symphony. The people of the kingdom came running out of their houses, laughing and crying tears of joy as they saw their land transformed into a magical wonderland. Children picked bouquets for their mothers, couples walked hand in hand through the fragrant pathways, and everyone felt their hearts lift with pure happiness."
-                },
-                {
-                    background: "linear-gradient(135deg, #4B0082 0%, #FF69B4 100%)",
-                    characters: "👑🐲🌙",
-                    backgroundElements: "⭐✨🌸😴💤",
-                    text: "Princess Lily was so overwhelmed with gratitude and joy that she flew back up to Puff's cloud kingdom and gave the gentle dragon the biggest, warmest hug he had ever received. 'Puff, you wonderful, magical friend,' she whispered, 'you've not only saved my kingdom - you've reminded us all that the most powerful magic in the world is kindness and love!' That very evening, Princess Lily invited Puff to come down and enjoy the beautiful garden they had created together. As the sun set and the first stars began to twinkle in the dusky sky, they sat together in the most fragrant rose garden, surrounded by flowers that glowed softly in the moonlight. Puff's gentle rumbling purr, which sounded like the most comforting lullaby, mixed with the soft evening breeze rustling through the flower petals. All the people in the kingdom, feeling safe and happy in their beautiful new world, drifted off to sleep with smiles on their faces, dreaming of flower gardens and kind dragons. The sweet perfume of a million flowers filled their dreams, and everyone slept more peacefully than they ever had before, knowing that true friendship and kindness had the power to make any dream come true. Goodnight, dear dreamers! 💤"
-                }
-            ]
-        };
-
-        // Theme selection
-        document.querySelectorAll('.theme-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons
-                document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-                
-                // Add active class and store theme
-                btn.classList.add('active');
-                selectedTheme = btn.dataset.theme;
-                
-                // Show generate button
-                document.getElementById('generateBtn').style.display = 'block';
-            });
-        });
-
-        // Generate story
-        document.getElementById('generateBtn').addEventListener('click', () => {
-            if (!selectedTheme) return;
-            
-            // Show loading
-            document.getElementById('themeSelector').style.display = 'none';
-            document.getElementById('loading').style.display = 'block';
-            
-            // Simulate loading time
-            setTimeout(() => {
-                generateStory();
-            }, 2000);
+        document.getElementById('storyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            generateStory();
         });
 
         function generateStory() {
-            currentStory = stories[selectedTheme];
-            currentPage = 0;
+            const formData = new FormData(document.getElementById('storyForm'));
+            const mainCharacter = formData.get('mainCharacter') || 'friendly dragon';
+            const setting = formData.get('setting') || 'enchanted forest';
+            const specialElement = formData.get('specialElement') || 'magic star';
+            const lesson = formData.get('lesson') || 'being kind to others makes the world a better place';
             
-            // Hide loading, show story
-            document.getElementById('loading').style.display = 'none';
-            document.getElementById('storyContainer').style.display = 'block';
-            
-            displayCurrentPage();
+            const themes = [];
+            document.querySelectorAll('input[name="themes"]:checked').forEach(checkbox => {
+                themes.push(checkbox.value);
+            });
+            const mainTheme = themes.length > 0 ? themes[0] : 'friendship';
+
+            // Show loading state
+            document.getElementById('storyContent').innerHTML = `
+                <div class="loading">
+                    <div class="spinner"></div>
+                    <h3>✨ Creating your magical story... ✨</h3>
+                    <p>Sprinkling fairy dust and weaving dreams...</p>
+                </div>
+            `;
+
+            // Simulate story generation delay
+            setTimeout(() => {
+                const story = createPersonalizedStory(mainCharacter, setting, mainTheme, specialElement, lesson);
+                displayStory(story);
+            }, 2000);
         }
 
-        function displayCurrentPage() {
-            const page = currentStory[currentPage];
-            const storyImage = document.getElementById('storyImage');
-            const backgroundElements = document.getElementById('backgroundElements');
-            const characters = document.getElementById('characters');
-            const storyText = document.getElementById('storyText');
+        function createPersonalizedStory(character, setting, theme, element, lesson) {
+            // Generate unique story elements
+            const storyElements = generateStoryElements(character, setting, theme, element, lesson);
+            const storyTitle = storyElements.title;
             
-            // Set background
-            storyImage.style.background = page.background;
-            
-            // Set background elements
-            backgroundElements.innerHTML = '';
-            if (page.backgroundElements) {
-                const elements = page.backgroundElements.split('');
-                elements.forEach((element, index) => {
-                    const span = document.createElement('span');
-                    span.textContent = element;
-                    span.style.animationDelay = `${index * 0.5}s`;
-                    backgroundElements.appendChild(span);
-                });
-            }
-            
-            // Set characters
-            characters.innerHTML = '';
-            if (page.characters) {
-                const chars = page.characters.split('');
-                chars.forEach((char, index) => {
-                    const span = document.createElement('span');
-                    span.textContent = char;
-                    span.style.animationDelay = `${index * 0.3}s`;
-                    characters.appendChild(span);
-                });
-            }
-            
-            // Set story text
-            storyText.textContent = page.text;
-            
-            // Update navigation
-            document.getElementById('prevBtn').disabled = currentPage === 0;
-            document.getElementById('nextBtn').disabled = currentPage === currentStory.length - 1;
-            document.getElementById('pageIndicator').textContent = `Page ${currentPage + 1} of ${currentStory.length}`;
+            const pages = [
+                storyElements.opening,
+                storyElements.discovery,
+                storyElements.magicalMoment,
+                storyElements.firstChallenge,
+                storyElements.meetingFriends,
+                storyElements.helpingOthers,
+                storyElements.learningLesson,
+                storyElements.celebration,
+                storyElements.wisdom,
+                storyElements.ending
+            ];
+
+            return { title: storyTitle, pages: pages, character: character, setting: setting };
         }
 
-        // Navigation
-        document.getElementById('prevBtn').addEventListener('click', () => {
-            if (currentPage > 0) {
-                currentPage--;
-                displayCurrentPage();
-            }
-        });
+        function generateStoryElements(character, setting, theme, element, lesson) {
+            // Story opening variations
+            const openings = [
+                `Once upon a time, in a ${setting}, there lived a ${character} who loved ${getRandomActivity()}. Every morning, they would ${getRandomMorningActivity()} and dream of helping others.`,
+                `In the heart of a magical ${setting}, a kind ${character} spent their days ${getRandomActivity()}. They had a special gift for making everyone around them feel ${getRandomEmotion()}.`,
+                `Long ago, in a beautiful ${setting}, there was a ${character} known throughout the land for their ${getRandomQuality()}. They believed that every day was a chance to spread ${theme}.`,
+                `Deep in the ${setting}, where ${getRandomSettingDetail(setting)}, lived a gentle ${character} who had the most wonderful secret - they could ${getRandomMagicalAbility()}.`
+            ];
 
-        document.getElementById('nextBtn').addEventListener('click', () => {
-            if (currentPage < currentStory.length - 1) {
-                currentPage++;
-                displayCurrentPage();
-            }
-        });
+            // Discovery variations
+            const discoveries = [
+                `One ${getRandomTimeOfDay()}, while ${getRandomExploringActivity()}, the ${character} stumbled upon something extraordinary. There, ${getRandomHidingPlace()}, was a ${element} that ${getRandomMagicalProperty()}.`,
+                `During a peaceful walk through the ${setting}, the ${character} heard a ${getRandomSound()} coming from nearby. Following the sound, they discovered a magnificent ${element} that seemed to ${getRandomMagicalBehavior()}.`,
+                `As the ${character} was ${getRandomDailyActivity()}, they noticed something sparkling in the distance. Moving closer, they found a beautiful ${element} that ${getRandomMagicalProperty()}.`,
+                `The ${character} had always been curious about the old legends of the ${setting}. Today, their curiosity led them to discover a legendary ${element} that ${getRandomMagicalBehavior()}.`
+            ];
 
-        // New story
-        document.getElementById('newStoryBtn').addEventListener('click', () => {
-            // Reset everything
-            selectedTheme = '';
-            currentStory = [];
-            currentPage = 0;
+            // Generate random story elements
+            const storyElements = {
+                title: `The ${capitalize(character)} and the ${getRandomTitleElement()} of ${capitalize(setting)}`,
+                opening: getRandomElement(openings),
+                discovery: getRandomElement(discoveries),
+                magicalMoment: generateMagicalMoment(character, element),
+                firstChallenge: generateChallenge(character, setting, theme),
+                meetingFriends: generateFriendMeeting(character, setting),
+                helpingOthers: generateHelpingScene(character, element, theme),
+                learningLesson: generateLessonScene(character, lesson, theme),
+                celebration: generateCelebration(character, setting),
+                wisdom: generateWisdom(character, element, theme),
+                ending: generateEnding(character, setting)
+            };
+
+            return storyElements;
+        }
+
+        // Helper functions for generating random story elements
+        function getRandomElement(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        }
+
+        function getRandomActivity() {
+            const activities = ['exploring', 'singing', 'dancing', 'gardening', 'painting', 'collecting flowers', 'watching clouds', 'helping friends'];
+            return getRandomElement(activities);
+        }
+
+        function getRandomMorningActivity() {
+            const activities = ['stretch and yawn', 'greet the sunshine', 'water the flowers', 'say hello to their neighbors', 'practice their magic', 'tidy their home'];
+            return getRandomElement(activities);
+        }
+
+        function getRandomEmotion() {
+            const emotions = ['happy', 'loved', 'peaceful', 'joyful', 'safe', 'welcome', 'special'];
+            return getRandomElement(emotions);
+        }
+
+        function getRandomQuality() {
+            const qualities = ['kindness', 'wisdom', 'gentleness', 'curiosity', 'bravery', 'generosity', 'patience'];
+            return getRandomElement(qualities);
+        }
+
+        function getRandomSettingDetail(setting) {
+            const details = {
+                'enchanted forest': ['ancient trees whisper secrets', 'magical creatures play among the flowers', 'sunbeams dance through the leaves'],
+                'magical kingdom': ['castle towers touch the clouds', 'rainbow bridges span the valleys', 'gentle music fills the air'],
+                'cozy village': ['chimney smoke curls into the sky', 'flower boxes decorate every window', 'friendly neighbors wave hello'],
+                'underwater world': ['colorful coral gardens bloom', 'gentle currents carry happy songs', 'pearl bubbles float to the surface'],
+                'cloud city': ['fluffy pathways stretch endlessly', 'rainbow slides connect the levels', 'star dust sparkles everywhere'],
+                'garden': ['butterfly friends flutter about', 'sweet fragrances fill the air', 'dewdrops sparkle like diamonds'],
+                'treehouse': ['branches sway gently in the breeze', 'bird friends chirp good morning', 'leaves rustle with ancient wisdom'],
+                'farm': ['golden wheat fields wave hello', 'happy animals roam freely', 'the sunset paints the sky in warm colors']
+            };
+            return getRandomElement(details[setting] || ['magic fills the air', 'wonder awaits around every corner', 'happiness grows like flowers']);
+        }
+
+        function getRandomMagicalAbility() {
+            const abilities = ['talk to flowers', 'understand all languages', 'make plants grow with a touch', 'see the goodness in everyone\'s heart', 'grant small wishes', 'heal sadness with hugs'];
+            return getRandomElement(abilities);
+        }
+
+        function getRandomTimeOfDay() {
+            const times = ['sunny morning', 'peaceful afternoon', 'golden evening', 'starlit night', 'misty dawn'];
+            return getRandomElement(times);
+        }
+
+        function getRandomExploringActivity() {
+            const activities = ['following a butterfly', 'listening to bird songs', 'searching for four-leaf clovers', 'watching the clouds', 'collecting smooth stones', 'following a rainbow'];
+            return getRandomElement(activities);
+        }
+
+        function getRandomHidingPlace() {
+            const places = ['nestled among soft moss', 'hidden beneath rainbow petals', 'resting on a lily pad', 'tucked inside a hollow log', 'gleaming atop a mushroom', 'cradled in flower petals'];
+            return getRandomElement(places);
+        }
+
+        function getRandomMagicalProperty() {
+            const properties = ['glowed with warm light', 'hummed a gentle melody', 'sparkled like captured starlight', 'pulsed with a heartbeat of kindness', 'shimmered with rainbow colors', 'whispered words of encouragement'];
+            return getRandomElement(properties);
+        }
+
+        function getRandomMagicalBehavior() {
+            const behaviors = ['pulse with gentle energy', 'float softly in the air', 'change colors like a sunset', 'emit tiny sparkles of joy', 'glow brighter with each kind thought', 'hum lullabies from long ago'];
+            return getRandomElement(behaviors);
+        }
+
+        function getRandomDailyActivity() {
+            const activities = ['tending to their garden', 'reading ancient stories', 'practicing their talents', 'helping their neighbors', 'preparing for the day', 'enjoying the peaceful morning'];
+            return getRandomElement(activities);
+        }
+
+        function getRandomSound() {
+            const sounds = ['gentle tinkling', 'soft humming', 'melodic whisper', 'happy giggling', 'peaceful chiming', 'magical singing'];
+            return getRandomElement(sounds);
+        }
+
+        function getRandomTitleElement() {
+            const elements = ['Secret', 'Magic', 'Mystery', 'Wonder', 'Adventure', 'Journey', 'Gift', 'Treasure', 'Miracle', 'Dream'];
+            return getRandomElement(elements);
+        }
+
+        function generateMagicalMoment(character, element) {
+            const moments = [
+                `The moment the ${character} touched the ${element}, it began to glow with warmth. "Hello, kind soul," whispered a gentle voice. "I have been waiting for someone with a heart like yours."`,
+                `As soon as the ${character} picked up the ${element}, the world around them seemed brighter. Flowers bloomed more colorfully, and a soft melody filled the air. The ${element} had chosen them for something special.`,
+                `The ${element} felt warm and alive in the ${character}'s gentle hands. Suddenly, they could understand the language of all living things - the trees, the flowers, even the busy ants had stories to tell.`,
+                `When the ${character} held the ${element} close to their heart, it pulsed with a rhythm that matched their own. They felt a surge of love and understanding flow through them, connecting them to all life in their world.`
+            ];
+            return getRandomElement(moments);
+        }
+
+        function generateChallenge(character, setting, theme) {
+            const challenges = [
+                `As the ${character} explored the ${setting} with their new magical gift, they heard crying in the distance. A small creature was lost and frightened, needing someone to show them ${theme}.`,
+                `The peaceful ${setting} was troubled that day. Some of the animals had forgotten how important ${theme} was, and sadness had begun to spread like grey clouds.`,
+                `While walking through the ${setting}, the ${character} discovered that the magic there was fading. The only way to restore it was through acts of genuine ${theme}.`,
+                `A gentle storm had scattered many of the smaller creatures throughout the ${setting}. They needed someone brave and kind to help them find their way back to safety and teach them about ${theme}.`
+            ];
+            return getRandomElement(challenges);
+        }
+
+        function generateFriendMeeting(character, setting) {
+            const meetings = [
+                `Soon, the ${character} met a group of friendly animals who lived in the ${setting}. There was a wise old turtle, a playful squirrel, and a gentle deer. They had all heard about the ${character}'s kind heart.`,
+                `Word of the ${character}'s kindness spread quickly through the ${setting}. Before long, creatures great and small came to meet this special friend who brought joy wherever they went.`,
+                `As the ${character} continued their journey, they were joined by other kind souls from the ${setting} - each one eager to help and learn from their new friend's gentle wisdom.`,
+                `The magic of the ${character}'s presence drew together all the good-hearted beings in the ${setting}. Together, they formed a circle of friendship that would make their world brighter.`
+            ];
+            return getRandomElement(meetings);
+        }
+
+        function generateHelpingScene(character, element, theme) {
+            const scenes = [
+                `Using the power of the ${element}, the ${character} and their friends worked together to help everyone in need. With each act of ${theme}, the magical object glowed brighter and their hearts felt fuller.`,
+                `The ${character} showed their new friends how the ${element} worked best when they all practiced ${theme} together. Soon, the entire area was filled with laughter, joy, and the warm glow of caring hearts.`,
+                `Through patient teaching and gentle example, the ${character} helped everyone understand the true power of ${theme}. The ${element} sparkled with approval as kindness spread from heart to heart.`,
+                `One by one, the ${character} and their friends used the ${element}'s magic to solve each problem they encountered. Every act of ${theme} made their community stronger and happier.`
+            ];
+            return getRandomElement(scenes);
+        }
+
+        function generateLessonScene(character, lesson, theme) {
+            const scenes = [
+                `As the day progressed, everyone in the community learned an important truth: ${lesson}. The ${character} smiled as they watched their friends practice this wisdom with joy.`,
+                `Through their adventures together, all the creatures discovered that ${lesson}. The ${character} felt proud to see how ${theme} had transformed their entire world.`,
+                `The wise ${character} gathered everyone together and shared the most important lesson of all: ${lesson}. Everyone nodded in understanding, feeling the truth of these words in their hearts.`,
+                `By the end of their magical day, every creature in the land understood that ${lesson}. The ${character} had helped them all discover the power of ${theme}.`
+            ];
+            return getRandomElement(scenes);
+        }
+
+        function generateCelebration(character, setting) {
+            const celebrations = [
+                `That evening, all the creatures of the ${setting} gathered to celebrate their new understanding. They sang songs, shared stories, and danced under the twinkling stars, with the ${character} at the center of it all.`,
+                `The entire ${setting} came alive with celebration. Flowers bloomed brighter, streams babbled happier songs, and even the stars seemed to twinkle with extra joy, all thanks to the ${character}'s kindness.`,
+                `As word spread throughout the ${setting}, creatures from far and wide came to thank the ${character}. The celebration lasted until the moon was high, filled with gratitude and new friendships.`,
+                `The magic in the ${setting} was stronger than ever before. Everyone celebrated by sharing their favorite foods, playing gentle games, and promising to remember the ${character}'s wonderful example.`
+            ];
+            return getRandomElement(celebrations);
+        }
+
+        function generateWisdom(character, element, theme) {
+            const wisdom = [
+                `As the celebration wound down, the ${character} carefully placed the ${element} back where they had found it. "The real magic," they explained, "was inside all of us from the beginning. The ${element} just helped us remember."`,
+                `The ${character} looked at their new friends with a warm smile. "This ${element} taught us something special today," they said. "True magic happens when we choose ${theme} in everything we do."`,
+                `Before saying goodnight, the ${character} shared their most important discovery: "The ${element} was wonderful, but the greatest magic comes from the love we share with each other."`,
+                `The wise ${character} knew that their time with the ${element} had taught everyone something precious. "We don't need magic objects to be special," they said. "Our kind hearts are magic enough."`
+            ];
+            return getRandomElement(wisdom);
+        }
+
+        function generateEnding(character, setting) {
+            const endings = [
+                `That night, as all the creatures of the ${setting} drifted off to peaceful sleep, they dreamed of their dear friend the ${character}. In their dreams, kindness continued to spread like warm sunlight, touching every corner of their magical world. The end. Sweet dreams! 🌙✨`,
+                `As the stars came out to light the ${setting}, the ${character} tucked all their new friends safely into their homes. Everyone fell asleep with happy hearts, knowing that tomorrow would bring new chances to spread joy. The end. Sleep tight! 🌙✨`,
+                `The ${character} looked up at the peaceful night sky above the ${setting} and felt grateful for the wonderful day. All around them, their friends slept soundly, dreaming of kindness and friendship. The end. Have the sweetest dreams! 🌙✨`,
+                `With hearts full of love and minds full of wonderful memories, everyone in the ${setting} settled down for the night. The ${character}'s lesson would live on in their dreams and in their daily lives. The end. Good night! 🌙✨`
+            ];
+            return getRandomElement(endings);
+        }
+
+        function capitalize(str) {
+            return str.split(' ').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+        }
+
+        function displayStory(story) {
+            let storyHTML = `<h2 class="story-title">${story.title}</h2><div class="story-content">`;
             
-            // Show theme selector again
-            document.getElementById('storyContainer').style.display = 'none';
-            document.getElementById('themeSelector').style.display = 'block';
-            document.getElementById('generateBtn').style.display = 'none';
+            story.pages.forEach((page, index) => {
+                const illustrationPrompt = generateIllustrationPrompt(page, index, story.character, story.setting);
+                const imageUrl = generateIllustration(illustrationPrompt);
+                
+                storyHTML += `
+                    <div class="story-page">
+                        <div class="page-number">Page ${index + 1}</div>
+                        <div class="story-text">
+                            <p>${page}</p>
+                        </div>
+                        <img src="${imageUrl}" alt="Story illustration for page ${index + 1}" class="story-illustration" loading="lazy">
+                    </div>
+                `;
+            });
             
-            // Remove active class from theme buttons
-            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-        });
+            storyHTML += '</div>';
+            document.getElementById('storyContent').innerHTML = storyHTML;
+        }
+
+        function generateIllustrationPrompt(pageText, pageIndex, character, setting) {
+            // Create child-friendly, detailed prompts for illustrations
+            const prompts = [
+                `cute cartoon ${character} in a magical ${setting}, children's book illustration style, bright colors, friendly expression, whimsical`,
+                `${character} discovering a glowing magical object in ${setting}, children's storybook art, soft lighting, enchanting atmosphere`,
+                `${character} touching a sparkling magical item, children's book illustration, warm glowing effects, wonder and amazement`,
+                `${character} with magical powers helping in ${setting}, cartoon style, bright cheerful colors, kind and gentle scene`,
+                `${character} meeting small forest animals in ${setting}, children's book art, cute animals, friendship scene, pastoral`,
+                `${character} using magic to help lost animals, children's illustration, glowing magical effects, caring and helpful scene`,
+                `${character} surrounded by happy animals in ${setting}, children's storybook style, celebration scene, joyful atmosphere`,
+                `group celebration in magical ${setting} with ${character}, children's book art, festive and happy, community gathering`,
+                `wise ${character} sharing wisdom in ${setting}, children's illustration, peaceful evening scene, storytelling moment`,
+                `peaceful nighttime scene in ${setting} with sleeping ${character}, children's book art, stars and moon, dreamy bedtime scene`
+            ];
+            
+            return prompts[pageIndex] || `cute ${character} in magical ${setting}, children's book illustration style`;
+        }
+
+        function generateIllustration(prompt) {
+            // Using Pollinations.ai - completely free, no auth required
+            // This service generates AI images directly from URL parameters
+            
+            const cleanPrompt = encodeURIComponent(
+                `${prompt}, children's book illustration, cartoon style, bright colors, friendly, cute, safe for kids, storybook art`
+            );
+            
+            // Add negative prompt to avoid inappropriate content
+            const negativePrompt = encodeURIComponent("scary, dark, violent, realistic, photographic, inappropriate");
+            
+            // Generate a unique seed for variety
+            const seed = Math.floor(Math.random() * 10000);
+            
+            // Pollinations.ai URL format
+            return `https://image.pollinations.ai/prompt/${cleanPrompt}?negative=${negativePrompt}&width=200&height=150&seed=${seed}&model=flux&enhance=true`;
+        }
     </script>
 </body>
 </html>
