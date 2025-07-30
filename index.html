@@ -988,10 +988,6 @@
                 const imageUrl = generateImageUrl(imagePrompt);
                 
                 page.innerHTML = `
-                    <div class="page-header">
-                        <h2 class="page-title">${story.title}</h2>
-                        <p class="page-subtitle">Chapter ${index + 1}</p>
-                    </div>
                     <div class="page-content">
                         <div class="page-text">${pageText}</div>
                         <img src="${imageUrl}" alt="Story illustration for page ${index + 1}" class="page-illustration" loading="lazy">
