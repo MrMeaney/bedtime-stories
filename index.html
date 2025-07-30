@@ -429,13 +429,23 @@
         }
 
         /* Cover page special styling */
-        .cover-page {
+        .book-page.cover-page {
             background: linear-gradient(135deg, #FFE5B4 0%, #E6F3FF 100%) !important;
             display: flex !important;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            text-align: center !important;
+        }
+
+        .book-page.cover-page .page-content {
+            display: flex !important;
+            flex-direction: column !important;
+            justify-content: center !important;
+            align-items: center !important;
+            text-align: center !important;
+            grid-template-columns: none !important;
+            gap: 0 !important;
         }
 
         .cover-decoration {
@@ -971,10 +981,12 @@
             coverPage.className = 'book-page cover-page';
             coverPage.dataset.page = '0';
             coverPage.innerHTML = `
-                <div class="cover-decoration">📚</div>
-                <h1 class="cover-title">${story.title}</h1>
-                <p class="cover-subtitle">A Magical Bedtime Story</p>
-                <div class="cover-decoration">✨🌙✨</div>
+                <div class="page-content">
+                    <div class="cover-decoration">📚</div>
+                    <h1 class="cover-title">${story.title}</h1>
+                    <p class="cover-subtitle">A Magical Bedtime Story</p>
+                    <div class="cover-decoration">✨🌙✨</div>
+                </div>
             `;
             bookPages.appendChild(coverPage);
             
