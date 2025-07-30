@@ -951,19 +951,22 @@
             </div>
             
             ${story.pages.map((page, index) => {
-                const illustrationPrompt = generateIllustrationPrompt(page, index, story.character, story.setting);
-                const imageUrl = generateIllustration(illustrationPrompt);
+                const illustrationPrompt ='cute cartoon ' + story.character + ' in a magical ' + story.setting + ', children\\'s book illustration style, bright colors, friendly expression, whimsical';
+                const cleanPrompt = encodeURIComponent(illustrationPrompt + ', children\\'s book illustration, cartoon style, bright colors, friendly, cute, safe for kids, storybook art');
+                const negativePrompt = encodeURIComponent("scary, dark, violent, realistic, photographic, inappropriate");
+                const seed = Math.floor(Math.random() * 10000);
+                const imageUrl = 'https://image.pollinations.ai/prompt/' + cleanPrompt + '?negative=' + negativePrompt + '&width=250&height=180&seed=' + seed + '&model=flux&enhance=true';
                 
-                return `
-                    <div class="page" data-page="${index + 1}">
-                        <div class="book-title">${story.title}</div>
+                return \`
+                    <div class="page" data-page="\${index + 1}">
+                        <div class="book-title">\${story.title}</div>
                         <div class="page-content">
-                            <div class="page-text">${page}</div>
-                            <img src="${imageUrl}" alt="Story illustration for page ${index + 1}" class="page-illustration" loading="lazy">
+                            <div class="page-text">\${page}</div>
+                            <img src="\${imageUrl}" alt="Story illustration for page \${index + 1}" class="page-illustration" loading="lazy">
                         </div>
-                        <div class="page-number">Page ${index + 1}</div>
+                        <div class="page-number">Page \${index + 1}</div>
                     </div>
-                `;
+                \`;
             }).join('')}
         </div>
         
@@ -1050,9 +1053,34 @@
         // Initialize
         updateNavigation();
         
-        // Helper functions for illustrations (copied from main window)
-        ${generateIllustrationPrompt.toString()}
-        ${generateIllustration.toString()}
+        // Helper functions for illustrations
+        function generateIllustrationPrompt(pageText, pageIndex, character, setting) {
+            const prompts = [
+                \`cute cartoon \${character} in a magical \${setting}, children's book illustration style, bright colors, friendly expression, whimsical\`,
+                \`\${character} discovering a glowing magical object in \${setting}, children's storybook art, soft lighting, enchanting atmosphere\`,
+                \`\${character} touching a sparkling magical item, children's book illustration, warm glowing effects, wonder and amazement\`,
+                \`\${character} with magical powers helping in \${setting}, cartoon style, bright cheerful colors, kind and gentle scene\`,
+                \`\${character} meeting small forest animals in \${setting}, children's book art, cute animals, friendship scene, pastoral\`,
+                \`\${character} using magic to help lost animals, children's illustration, glowing magical effects, caring and helpful scene\`,
+                \`\${character} surrounded by happy animals in \${setting}, children's storybook style, celebration scene, joyful atmosphere\`,
+                \`group celebration in magical \${setting} with \${character}, children's book art, festive and happy, community gathering\`,
+                \`wise \${character} sharing wisdom in \${setting}, children's illustration, peaceful evening scene, storytelling moment\`,
+                \`peaceful nighttime scene in \${setting} with sleeping \${character}, children's book art, stars and moon, dreamy bedtime scene\`
+            ];
+            
+            return prompts[pageIndex] || \`cute \${character} in magical \${setting}, children's book illustration style\`;
+        }
+
+        function generateIllustration(prompt) {
+            const cleanPrompt = encodeURIComponent(
+                \`\${prompt}, children's book illustration, cartoon style, bright colors, friendly, cute, safe for kids, storybook art\`
+            );
+            
+            const negativePrompt = encodeURIComponent("scary, dark, violent, realistic, photographic, inappropriate");
+            const seed = Math.floor(Math.random() * 10000);
+            
+            return \`https://image.pollinations.ai/prompt/\${cleanPrompt}?negative=\${negativePrompt}&width=250&height=180&seed=\${seed}&model=flux&enhance=true\`;
+        }
     </script>
 </body>
 </html>
