@@ -305,8 +305,6 @@
         <div class="main-content">
             <div class="form-container">
                 <form id="storyForm">
-
-
                     <div class="form-group">
                         <label for="mainCharacter">Main Character:</label>
                         <select id="mainCharacter" name="mainCharacter">
@@ -688,6 +686,11 @@
             
             const bookWindow = window.open('', '_blank', 'width=900,height=700,scrollbars=no,resizable=yes');
             
+            if (!bookWindow) {
+                alert('Please allow popups for this site to view your story book!');
+                return;
+            }
+            
             // Generate the pages HTML separately to avoid template literal issues
             let pagesHTML = '';
             story.pages.forEach((page, index) => {
@@ -1053,50 +1056,6 @@
 '</html>');
             
             bookWindow.document.close();
-        }=\${negativePrompt}&width=250&height=180&seed=\${seed}&model=flux&enhance=true\`;
-        }
-    </script>
-</body>
-</html>
-            `);
-            
-            bookWindow.document.close();
-        }
-
-        function generateIllustrationPrompt(pageText, pageIndex, character, setting) {
-            // Create child-friendly, detailed prompts for illustrations
-            const prompts = [
-                `cute cartoon ${character} in a magical ${setting}, children's book illustration style, bright colors, friendly expression, whimsical`,
-                `${character} discovering a glowing magical object in ${setting}, children's storybook art, soft lighting, enchanting atmosphere`,
-                `${character} touching a sparkling magical item, children's book illustration, warm glowing effects, wonder and amazement`,
-                `${character} with magical powers helping in ${setting}, cartoon style, bright cheerful colors, kind and gentle scene`,
-                `${character} meeting small forest animals in ${setting}, children's book art, cute animals, friendship scene, pastoral`,
-                `${character} using magic to help lost animals, children's illustration, glowing magical effects, caring and helpful scene`,
-                `${character} surrounded by happy animals in ${setting}, children's storybook style, celebration scene, joyful atmosphere`,
-                `group celebration in magical ${setting} with ${character}, children's book art, festive and happy, community gathering`,
-                `wise ${character} sharing wisdom in ${setting}, children's illustration, peaceful evening scene, storytelling moment`,
-                `peaceful nighttime scene in ${setting} with sleeping ${character}, children's book art, stars and moon, dreamy bedtime scene`
-            ];
-            
-            return prompts[pageIndex] || `cute ${character} in magical ${setting}, children's book illustration style`;
-        }
-
-        function generateIllustration(prompt) {
-            // Using Pollinations.ai - completely free, no auth required
-            // This service generates AI images directly from URL parameters
-            
-            const cleanPrompt = encodeURIComponent(
-                `${prompt}, children's book illustration, cartoon style, bright colors, friendly, cute, safe for kids, storybook art`
-            );
-            
-            // Add negative prompt to avoid inappropriate content
-            const negativePrompt = encodeURIComponent("scary, dark, violent, realistic, photographic, inappropriate");
-            
-            // Generate a unique seed for variety
-            const seed = Math.floor(Math.random() * 10000);
-            
-            // Pollinations.ai URL format
-            return `https://image.pollinations.ai/prompt/${cleanPrompt}?negative=${negativePrompt}&width=200&height=150&seed=${seed}&model=flux&enhance=true`;
         }
     </script>
 </body>
